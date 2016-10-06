@@ -1,0 +1,19 @@
+Zápisnica TIS projekt
+
+Dátum stretnutia: 30.9.2016
+
+Zoznam prítomných Jana Harvanová, Sabína Fackovcová, Michal Pandula, Samuel Wendl
+
+Agenda:
+- stretnutie sa so zadávatelom
+- výmena kontaktných údajov
+- zadávatel vysvetloval podrobnejšie co potrebuje spravit:
+	- program bežiaci lokálne na jeho pocítaci ktorý v zadaný (zmenitelný interval) bude zaznamenávat údaje z meracieho prístroja
+	- príkazi na komunikáciu so zariadením budeme musiet získat odpozorovaním správania sa programu, ktorý ma práve nastarosti komunikáciu s daným zariadením
+	- ukladat data potrebuje na co najdlhšiu dobu (pol roka minimálne) bližšie upresnenie, ak budeme vediet kolko nám zabera 1 meranie pamäte
+	- zobrazovanie údajov bude iba na webovej stránke, lokálne nieje potreba, na stránke
+- dohodnuté dalšie stretnutie so zadávatelom 4.10.2016 13:30, kde nám ukáže prístroj ktorého data budeme vizualizovat
+
+
+
+
