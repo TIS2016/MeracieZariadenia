@@ -1,0 +1,15 @@
+Zápisnica TIS projekt
+
+Dátum stretnutia: 4.10.2016
+
+Zoznam prítomných Jana Harvanová, Sabína Fackovcová, Michal Pandula, Samuel Wendl
+
+Agenda:
+- stretnutie sa so zadávatelom
+- Ukázal nam zariadenie na ktoré budeme písat program
+- opísali sme si potrebne udaje o pocítaci na ktorý je pripojený tento prístroj: IP, udaje na teamwiever
+
+
+
+
+
