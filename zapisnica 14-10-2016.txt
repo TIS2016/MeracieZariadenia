@@ -1,0 +1,14 @@
+Zápisnica TIS projekt
+
+Dátum stretnutia: 14.10.2016
+
+Zoznam prítomných Jana Harvanová, Sabína Fačkovcová, Michal Pandula, Samuel Wendl
+
+Prítomný cvičiaci: Andrej Jursa
+
+Agenda:
+- stretnutie sa s cvičiacim
+- preberanie katalógu špecifikácie, naše chyby preberané podrobnejšie a čo musíme opraviť - prepísanie katalógu požiadaviek
+- rozprávali sme sa o tom ako zistiť komunikáciu k našemu zariadeniu, ako sa k nej dostať, pretože to je najväčší problém - Janka napíše výrobcovi a ten snáď bude ochotný nám poskytnúť nejaké informácie ohľadom komunikácie
+- treba urobiť diagram
+- treba používať Zenhub, kde máme robiť tickety na každú vec, ktorá sa bude diať v projekte
