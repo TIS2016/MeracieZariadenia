@@ -1,0 +1,24 @@
+Z‡pisnica TIS projekt
+
+D‡tum stretnutia: 27.10.2016
+
+Pr’tomnù zad‡vate¼: RNDr. Miroslav Jeäkovskù, PhD.
+
+Zoznam pr’tomnùch: Jana Harvanov‡, Sab’na Fa‹kovcov‡, Michal Pandula, Samuel Wendl
+
+Agenda:
+- stretnutie sa so zad‡vate¼om projektu
+- zhdonotil, ìe äpecifik‡cia je v poriadku
+- ukladanie d‡t - v lok‡lnej datab‡ze na PC, PC m™ìe byé st‡le zapnutù len sa eäte vyrieäi bezpe‹nosé
+- sta‹’ aby to beìalo na Windowse
+- interval merania kaìdœ 1s, 5s, 10s ale do datab‡zy posielanie kaìdœ minœtu
+- v pr’pade vùpadku prœdu alebo inŽho problŽmu sa budœ zapisovaé nulovŽ hodnoty (niekedy sa m™ìe staé, ìe je odpojen‡ sonda a nemeria, treba zistié ‹i d‡va error)
+- na webe sa prim‡rne zobraz’ 1 tùìdeË
+- ob‹as treba vytiahnué œdaj z datab‡zy -  do tabu¼ky (form‡t ‹as hodnota1 hodnota2)
+- inform‡cie na grafe, ako prepo‹’tavaé œdaje ak je graf vŠ‹ä’ - min a max (nie priemer ak budœ sk‡kaé hodnoty)
+- citlivosé sondy je dosé ve¼k‡, ‹iìe asi nebudœ rovnakŽ œdaje - v programe od dod‡vate¼a treba nastavié interval 1s
+- treba äifrovaé hesl‡, komunik‡ciu 
+- datab‡zy obmedzié len na niektorŽ IP adresy alebo len na centu (nastavié) alebo tunel len na pr’stup pre ten PC
+- dohodnutie sa na GUI
+- sœ‹asé lok‡lnej aplik‡cie aj webu - download d‡t
+- centa.dnp.fmph.uniba.sk
