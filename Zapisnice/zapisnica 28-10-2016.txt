@@ -1,0 +1,37 @@
+Z‡pisnica TIS projekt
+
+D‡tum stretnutia: 28.10.2016
+
+Pr’tomnù cvi‹iaci: Andrej Jursa
+
+Zoznam pr’tomnùch: Jana Harvanov‡, Sab’na Fa‹kovcov‡, Michal Pandula
+
+Agenda:
+- stretnutie sa s cvi‹iacim
+
+- upravié stavovù diagram - zobrazenie online odstr‡nié lebo to tam nepatr’
+			  - dopytujœci ‹o rob’ - poäle do datab‡zy alebo ‹o, sk™r by sa 			    mal nach‡dzaé na lok‡lnej ‹asti, sk™r by sa mal volaé ‹akajœci 			    na dopyt, h¼ad‡ na serveri d‡ta (stavy - na‹’ta, uklad‡ a 				    potom sa vr‡ti spŠé)
+
+- upravié sekven‹nù diagram - store_data() namiesto sql_query
+			    - ‹i je nutnŽ sql_query_result() - nemus’ sa vracaé
+			    - send_ data - nie ako volanie lebo my ju nevol‡me, ‹iìe bez 			      z‡tvoriek
+			    - z databzy odpove“ ‹i sœ d‡ta uloìenŽ alebo nie
+
+- zladié diagramy pod¼a toho, ìe m‡me lok‡lne datab‡zy - treba diagramy menié ak sa da‹o zmen’
+
+- PostgreSQL namiesto SQL
+- Drivre na modely datab‡z v C# 
+- PHP m‡ automatickŽ äifrovanie ?
+
+- analùza technol—gi’ - najprv zvaìovanie technol—gi’ a aì potom rozhodnutie
+		      - pri webe viacej technol—gi’
+		      - PHP5 alebo PHP7 (7 vùkonnejäie a odporœ‹anŽ)
+		      - akù server budeme maé ? - pop’saé aj pre‹o
+		      - akŽ libraries na grafy 
+		      - najprv analùza
+
+- triedne diagramy - viacerŽ triedy aplika‹nŽ, komunika‹nŽ - my budeme maé 2 jednu pre PHP  a jednu pre C#, s ‹’m komunikujœ
+
+- PHPStorm - zadarmo pre ätudijnŽ œ‹ely 
+
+- treba spravié d‡tovù model, dekompoz’ciu
