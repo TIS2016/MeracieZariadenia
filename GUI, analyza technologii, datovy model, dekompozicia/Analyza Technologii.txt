@@ -43,7 +43,14 @@ robí query a vyberá všetky sériové porty, ktoré sú v zariadení zaevidova
 Prenos komunikácie je šifrovaný pomocou SSL na sprostredkovanie bezpečnej komunikácie ako s aplikáciou a databázou, tak aj aplikáciou a webom.
 
 3. Web
-Webová aplikácia bude naprogramovaná v jazyku PHP s použitím Bootstrapu a JavaScriptu
+Na realizáciu webovej aplikácie sme vyberali medzi viacerymi jazykmi, medzi nimi Python, PHP, Ruby a Javascript.
+Python sme zvažovali kvôli obrovskému množstvu knižníc či už na vývoj backendu (napr. framework Django), ale aj na vykreslovanie dát (Plotly library).
+Ruby (konkrétne framework Ruby on Rails) pripadal do úvahy kvôli rovnakému dôvodu a okrem toho kvôli jeho rýchlosti a prehľadnosti a hlavne kvôli multiplatformovosti.
+Po dlhšej úvahe sme prišli na to, že najvhodnejší by bol jazyk PHP kvôli jeho kompatibilite s väčšinou serverov, natívnej podpore databázových systémov
+a veľkej používateľskej komunite čo ma za následok jednoduchšie riešenie prípadných problémov. De facto je to jeden z najpoužívanejších jazykov na tvorbu
+dynamickách webov. Doplnený javascriptovou knižnicou na zobrazovanie grafov FusionCharts. FusionCharts bol praktickou voľbou kvôli množstvu šablón grafov, ktoré sú
+na výber a aj kvôli kompatibilite - funguje aj v IE6.
+Webová aplikácia bude teda naprogramovaná v jazyku PHP 7.0 s použitím Bootstrapu a JavaScriptu(FusionCharts)
 na zobrazovanie grafov s RealTime zobrazovaním dát
 pretože: 
 a) Stránka by mala byť dynamická a teda nestačí len čisté HTML a CSS
