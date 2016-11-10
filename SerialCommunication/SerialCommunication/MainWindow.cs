@@ -12,11 +12,15 @@ namespace SerialCommunication
 {
     public partial class MainWindow : Form
     {
-        SettingsForm settings;
+        List<COMPortInfo> portInfo;
+
+        string PortName { get; set; }
+        int BaudRate { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
-            settings = new SettingsForm();
+            portInfo = COMPortInfo.GetCOMPortsInfo();
 
             l_connected.ForeColor = Color.Red;
             led.BackColor = Color.Red;
@@ -24,7 +28,23 @@ namespace SerialCommunication
         
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            settings.Show();
+            SettingsForm settings = new SettingsForm(portInfo, PortName, BaudRate);
+            DialogResult result = settings.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                PortName = settings.PortName;
+                BaudRate = settings.BaudRate;
+                MessageBox.Show("OK");
+            }
+            else
+            {
+                MessageBox.Show("Cancel");
+            }
+        }
+
+        private void b_startCom_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

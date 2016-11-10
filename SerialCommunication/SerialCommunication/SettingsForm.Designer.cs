@@ -34,6 +34,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.b_ok = new System.Windows.Forms.Button();
             this.b_cancel = new System.Windows.Forms.Button();
+            this.warning = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // cb_Ports
@@ -49,6 +50,9 @@
             // 
             this.cb_baudRates.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_baudRates.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cb_baudRates.Items.AddRange(new object[] {
+            "19200",
+            "9600"});
             this.cb_baudRates.Location = new System.Drawing.Point(249, 61);
             this.cb_baudRates.Name = "cb_baudRates";
             this.cb_baudRates.Size = new System.Drawing.Size(121, 24);
@@ -82,6 +86,7 @@
             this.b_ok.TabIndex = 4;
             this.b_ok.Text = "OK";
             this.b_ok.UseVisualStyleBackColor = true;
+            this.b_ok.Click += new System.EventHandler(this.b_ok_Click);
             // 
             // b_cancel
             // 
@@ -91,12 +96,25 @@
             this.b_cancel.TabIndex = 5;
             this.b_cancel.Text = "Cancel";
             this.b_cancel.UseVisualStyleBackColor = true;
+            this.b_cancel.Click += new System.EventHandler(this.b_cancel_Click);
+            // 
+            // warning
+            // 
+            this.warning.AutoSize = true;
+            this.warning.ForeColor = System.Drawing.Color.Red;
+            this.warning.Location = new System.Drawing.Point(29, 88);
+            this.warning.Name = "warning";
+            this.warning.Size = new System.Drawing.Size(220, 16);
+            this.warning.TabIndex = 6;
+            this.warning.Text = "No usable port found on this device.";
+            this.warning.Visible = false;
             // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(420, 183);
+            this.Controls.Add(this.warning);
             this.Controls.Add(this.b_cancel);
             this.Controls.Add(this.b_ok);
             this.Controls.Add(this.label2);
@@ -121,5 +139,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button b_ok;
         private System.Windows.Forms.Button b_cancel;
+        private System.Windows.Forms.Label warning;
     }
 }
