@@ -1,0 +1,9 @@
+3.) Web
+	3.1) Vstup: Data z databázy získane SELECT dopytom
+	Výstup: JavaScript graf s nacítanými hodnotami, konkrétne maximame v danom intervale 
+	3.2) Vstup: Snaha o SQL injection
+	Výstup SQL dopyt neprebehne a graf sa znova nenacíta
+	3.3) Vstup: Použitie tlacidla download.
+	Výstup: CSV súbor so správnymi údajmi
+	3.4) Vstup: Zmena casového intervalu dát vykreslených na grafe
+	Výstup: Graf sa prekreslí a v nom budu správne zmenené údaje
