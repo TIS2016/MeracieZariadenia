@@ -1,0 +1,12 @@
+Z‡pisnica TIS projekt
+
+D‡tum stretnutia: 8.11.2016
+
+Zoznam pr’tomnùch: Jana Harvanov‡, Sab’na Fa‹kovcov‡, Michal Pandula, Samuel Wendl
+
+Agenda:
+- pravidelnŽ stretnutie t’mu 
+- diskusia oh¼adom tvorby testovac’ch scen‡rov a ich tvorba
+- prep’sanie do elektronickej podoby dekompoz’ciu, d‡tovù model a triedny diagram
+- tvorba skompletizovanŽho n‡vrhu
+

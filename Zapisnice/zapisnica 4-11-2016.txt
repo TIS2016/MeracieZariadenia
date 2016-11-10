@@ -1,0 +1,18 @@
+Z‡pisnica TIS projekt
+
+D‡tum stretnutia: 4.11.2016
+
+Pr’tomnù cvi‹iaci: Andrej Jursa
+
+Zoznam pr’tomnùch: Jana Harvanov‡, Sab’na Fa‹kovcov‡, Michal Pandula, Samuel Wendl
+
+Agenda:
+- stretnutie sa s cvi‹iacim
+- diskutovali sme o indexoch - zrùch¼ujœ vyberanie
+			     - my ale m‡lo vyber‡me ale ve¼a vklad‡me
+			     - pri sekunde by nemal byé problŽm, ìe by to bolo pomalŽ
+- budeme maé hlavnœ tabu¼ku, ktor‡ bude udrìovaé d‡ta kaìdœ minœtu
+- ‹o bude lepäie ‹i deË mesiac rok alebo timestap
+- Postgre - nastavié dostato‹nù po‹et ‹’siel, z ktorùch sa bude vyberaé - nezabudnœé na to
+- delenù typ v datab‡ze - number
+- double alebo float na vkladanie do datab‡zy
