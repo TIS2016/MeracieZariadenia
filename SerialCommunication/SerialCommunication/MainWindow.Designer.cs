@@ -180,6 +180,7 @@
             this.b_endCom.TabIndex = 7;
             this.b_endCom.Text = "End";
             this.b_endCom.UseVisualStyleBackColor = true;
+            this.b_endCom.Click += new System.EventHandler(this.b_endCom_Click);
             // 
             // led
             // 
@@ -222,6 +223,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainWindow";
             this.Text = "FHT 6020 Communication";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.freq)).EndInit();
