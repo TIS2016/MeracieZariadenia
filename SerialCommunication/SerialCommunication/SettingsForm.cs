@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace SerialCommunication
 {
-    public partial class MainWindow : Form
+    public partial class SettingsForm : Form
     {
-        public MainWindow()
+        public SettingsForm()
         {
             InitializeComponent();
-        }
-        
-        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
