@@ -15,6 +15,16 @@ namespace SerialCommunication
         public SettingsForm()
         {
             InitializeComponent();
+            SetPortOptions();
+        }
+
+        public void SetPortOptions()
+        {
+            List<COMPortInfo> portsInfo = COMPortInfo.GetCOMPortsInfo();
+            foreach (COMPortInfo cp in portsInfo)
+            {
+                this.cb_Ports.Items.Add(cp.Name);
+            }
         }
     }
 }

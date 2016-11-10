@@ -92,7 +92,7 @@
             this.b_cancel.Text = "Cancel";
             this.b_cancel.UseVisualStyleBackColor = true;
             // 
-            // settingsForm
+            // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -103,9 +103,10 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cb_baudRates);
             this.Controls.Add(this.cb_Ports);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "settingsForm";
+            this.Name = "SettingsForm";
             this.Text = "Advanced Settings";
             this.ResumeLayout(false);
             this.PerformLayout();
