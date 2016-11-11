@@ -1,0 +1,15 @@
+Zápisnica TIS projekt
+
+Dátum stretnutia: 30.9.2016
+
+Prítomný cviciaci: Andrej Jursa
+
+Zoznam prítomných Jana Harvanová, Michal Pandula, Samuel Wendl
+
+Agenda:
+-kompletny navrh chybicky: -referencné císlovanie a referencovaný v texte má byt každý obrázok (napísat pod neho popis, automaticky ho tým aj ocísluje a potom to císlo dat do textu kde sa píše co tam je vidiet)
+		- bolo by dobre pridat jeden odstavcek úvod, že co je v tom dokumente, že v ktorých kapitolách je co
+		- stavový diagram ze priliž vycnieva vpravo, lebo všetko vyzera že dodržuje okraj len tento tak vybocuje
+		- aj pri tom giu jak uz aj tam je popis k obrázkom, aj tak treba dat referenciu k obrázku
+-stavový diagram že sa nevie dostat spät na lokálnu aplikáciu a že mu chýba nejake konecný stav, pridat tam prerušovanu
+ ciaru
