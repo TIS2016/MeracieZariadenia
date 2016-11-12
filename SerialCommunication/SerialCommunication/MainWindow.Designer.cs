@@ -34,8 +34,8 @@
             this.freq = new System.Windows.Forms.NumericUpDown();
             this.l_sec = new System.Windows.Forms.Label();
             this.panel = new System.Windows.Forms.Panel();
-            this.sonda1Info = new System.Windows.Forms.Label();
-            this.sonda2Info = new System.Windows.Forms.Label();
+            this.sonda1Value = new System.Windows.Forms.Label();
+            this.sonda2Value = new System.Windows.Forms.Label();
             this.currVals = new System.Windows.Forms.Label();
             this.l_sonda2 = new System.Windows.Forms.Label();
             this.l_sonda1 = new System.Windows.Forms.Label();
@@ -101,8 +101,8 @@
             // 
             // panel
             // 
-            this.panel.Controls.Add(this.sonda1Info);
-            this.panel.Controls.Add(this.sonda2Info);
+            this.panel.Controls.Add(this.sonda1Value);
+            this.panel.Controls.Add(this.sonda2Value);
             this.panel.Controls.Add(this.currVals);
             this.panel.Controls.Add(this.l_sonda2);
             this.panel.Controls.Add(this.l_sonda1);
@@ -111,25 +111,25 @@
             this.panel.Size = new System.Drawing.Size(326, 221);
             this.panel.TabIndex = 5;
             // 
-            // sonda1Info
+            // sonda1Value
             // 
-            this.sonda1Info.BackColor = System.Drawing.SystemColors.HighlightText;
-            this.sonda1Info.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.sonda1Info.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.sonda1Info.Location = new System.Drawing.Point(17, 88);
-            this.sonda1Info.Name = "sonda1Info";
-            this.sonda1Info.Size = new System.Drawing.Size(241, 31);
-            this.sonda1Info.TabIndex = 6;
+            this.sonda1Value.BackColor = System.Drawing.SystemColors.HighlightText;
+            this.sonda1Value.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.sonda1Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.sonda1Value.Location = new System.Drawing.Point(17, 88);
+            this.sonda1Value.Name = "sonda1Value";
+            this.sonda1Value.Size = new System.Drawing.Size(241, 31);
+            this.sonda1Value.TabIndex = 6;
             // 
-            // sonda2Info
+            // sonda2Value
             // 
-            this.sonda2Info.BackColor = System.Drawing.SystemColors.HighlightText;
-            this.sonda2Info.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.sonda2Info.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.sonda2Info.Location = new System.Drawing.Point(17, 157);
-            this.sonda2Info.Name = "sonda2Info";
-            this.sonda2Info.Size = new System.Drawing.Size(241, 31);
-            this.sonda2Info.TabIndex = 5;
+            this.sonda2Value.BackColor = System.Drawing.SystemColors.HighlightText;
+            this.sonda2Value.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.sonda2Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.sonda2Value.Location = new System.Drawing.Point(17, 157);
+            this.sonda2Value.Name = "sonda2Value";
+            this.sonda2Value.Size = new System.Drawing.Size(241, 31);
+            this.sonda2Value.TabIndex = 5;
             // 
             // currVals
             // 
@@ -147,9 +147,9 @@
             this.l_sonda2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.l_sonda2.Location = new System.Drawing.Point(17, 137);
             this.l_sonda2.Name = "l_sonda2";
-            this.l_sonda2.Size = new System.Drawing.Size(70, 20);
+            this.l_sonda2.Size = new System.Drawing.Size(67, 20);
             this.l_sonda2.TabIndex = 3;
-            this.l_sonda2.Text = "Sonda 1";
+            this.l_sonda2.Text = "Probe 2";
             // 
             // l_sonda1
             // 
@@ -157,9 +157,9 @@
             this.l_sonda1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.l_sonda1.Location = new System.Drawing.Point(15, 65);
             this.l_sonda1.Name = "l_sonda1";
-            this.l_sonda1.Size = new System.Drawing.Size(70, 20);
+            this.l_sonda1.Size = new System.Drawing.Size(67, 20);
             this.l_sonda1.TabIndex = 1;
-            this.l_sonda1.Text = "Sonda 1";
+            this.l_sonda1.Text = "Probe 1";
             // 
             // b_startCom
             // 
@@ -248,8 +248,8 @@
         private System.Windows.Forms.Button b_endCom;
         private System.Windows.Forms.TextBox led;
         private System.Windows.Forms.Label l_connected;
-        private System.Windows.Forms.Label sonda1Info;
-        private System.Windows.Forms.Label sonda2Info;
+        private System.Windows.Forms.Label sonda1Value;
+        private System.Windows.Forms.Label sonda2Value;
     }
 }
 
