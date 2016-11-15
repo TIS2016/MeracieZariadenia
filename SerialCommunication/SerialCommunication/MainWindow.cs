@@ -65,9 +65,10 @@ namespace SerialCommunication
                 return;
             }
             ToggleEnabledDisabled(PortStatus.OPEN);
-            serialPort.PortName = PortName;
-            serialPort.BaudRate = BaudRate;
+            serialPort.PortName = "COM4";
+            serialPort.BaudRate = 19200;
             serialPort.Parity = Parity.Even;
+            serialPort.DataBits = 7;
             serialPort.StopBits = StopBits.One;
             try
             {
@@ -85,6 +86,7 @@ namespace SerialCommunication
         private void b_endCom_Click(object sender, EventArgs e)
         {
             ToggleEnabledDisabled(PortStatus.CLOSED);
+            serialPort.Close();
         }
         
         /// <summary>
@@ -97,9 +99,9 @@ namespace SerialCommunication
             {
                 while (true)
                 {
-                    string sonda1 = ProcessResponse(CONSTANTS.Command.Sonda1Data, SendCommandAndGetResponse(CONSTANTS.Command.Sonda1Data));
-                    string sonda2 = ProcessResponse(CONSTANTS.Command.Sonda2Data, SendCommandAndGetResponse(CONSTANTS.Command.Sonda2Data));
-                    string timestamp = ProcessResponse(CONSTANTS.Command.Timestamp, SendCommandAndGetResponse(CONSTANTS.Command.Timestamp));
+                    string sonda1 = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Sonda1Data));
+                    string sonda2 = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Sonda2Data));
+                    string timestamp = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Timestamp));
 
                     VisualizeProbeValues(sonda1, sonda2);
                     double tryparse;
@@ -107,7 +109,6 @@ namespace SerialCommunication
                     Data sonda2Entry = new Data(2, (double.TryParse(sonda2, out tryparse) ? Convert.ToDouble(sonda2) : 0), timestamp);
                     DATA.Add(sonda1Entry);
                     DATA.Add(sonda2Entry);
-
                     Thread.Sleep(CommInterval);
                 }
             }
@@ -148,7 +149,7 @@ namespace SerialCommunication
             return res;
         }
 
-        private string ProcessResponse(CONSTANTS.Command c, List<byte> response)
+        private string ProcessResponse(List<byte> response)
         {
             StringBuilder res = new StringBuilder();
             for (int i = 0; i < response.Count; ++i)
