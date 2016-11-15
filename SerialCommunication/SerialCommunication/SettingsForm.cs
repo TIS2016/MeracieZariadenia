@@ -26,7 +26,7 @@ namespace SerialCommunication
             {
                 warning.Visible = true;
             }
-            
+            cb_Ports.SelectedIndex = cb_Ports.FindString(currentPort + "");
             cb_baudRates.SelectedIndex = cb_baudRates.FindString(currentBaudRate + "");
         }
 
