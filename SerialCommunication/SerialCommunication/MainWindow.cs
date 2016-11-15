@@ -35,7 +35,9 @@ namespace SerialCommunication
             portInfo = COMPortInfo.GetCOMPortsInfo();
             serialPort = new SerialPort();
             DATA = new List<Data>();
+
             comm = new BackgroundWorker();
+            comm.WorkerSupportsCancellation = true;
             comm.DoWork += StartCommunication;
             
             //Default Init
@@ -58,7 +60,6 @@ namespace SerialCommunication
 
         private void b_startCom_Click(object sender, EventArgs e)
         {
-            VisualizeProbeValues("1", "2");
             if (PortName == "")
             {
                 MessageBox.Show("Prosim zvolte nastavenia portu.");
@@ -86,6 +87,11 @@ namespace SerialCommunication
         private void b_endCom_Click(object sender, EventArgs e)
         {
             ToggleEnabledDisabled(PortStatus.CLOSED);
+            if (comm.IsBusy)
+            {
+                comm.CancelAsync();
+            }
+            
             serialPort.Close();
         }
         
@@ -99,6 +105,12 @@ namespace SerialCommunication
             {
                 while (true)
                 {
+                    if (this.comm.CancellationPending)
+                    {
+                        e.Cancel = true;
+                        return;
+                    }
+
                     string sonda1 = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Sonda1Data));
                     string sonda2 = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Sonda2Data));
                     string timestamp = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Timestamp));
