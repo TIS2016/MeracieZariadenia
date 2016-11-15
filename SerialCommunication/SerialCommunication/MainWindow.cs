@@ -21,6 +21,8 @@ namespace SerialCommunication
 
         List<Data> DATA;
 
+        BackgroundWorker comm;
+
         /// <summary>
         /// Communication interval ( ms )
         /// </summary>
@@ -33,6 +35,8 @@ namespace SerialCommunication
             portInfo = COMPortInfo.GetCOMPortsInfo();
             serialPort = new SerialPort();
             DATA = new List<Data>();
+            comm = new BackgroundWorker();
+            comm.DoWork += StartCommunication;
             
             //Default Init
             BaudRate = CONSTANTS.BaudRate;
@@ -54,6 +58,7 @@ namespace SerialCommunication
 
         private void b_startCom_Click(object sender, EventArgs e)
         {
+            VisualizeProbeValues("1", "2");
             if (PortName == "")
             {
                 MessageBox.Show("Prosim zvolte nastavenia portu.");
@@ -74,7 +79,7 @@ namespace SerialCommunication
                 ToggleEnabledDisabled(PortStatus.CLOSED);
                 return;
             }
-            StartCommunication();
+            comm.RunWorkerAsync();
         }
         
         private void b_endCom_Click(object sender, EventArgs e)
@@ -86,7 +91,7 @@ namespace SerialCommunication
         /// Starts communication loop. Periodically sends commands for probe1, probe2 data and timestamp. Stores this data.
         /// Visualizes the data in window. Then, (TODO) once per minute, stores the data to database.
         /// </summary>
-        private void StartCommunication()
+        private void StartCommunication(object sender, DoWorkEventArgs e)
         {
             try
             {
@@ -106,9 +111,9 @@ namespace SerialCommunication
                     Thread.Sleep(CommInterval);
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show("An error has occured and caused the communication to terminate. " + e.ToString());
+                MessageBox.Show("An error has occured and caused the communication to terminate. " + ex.ToString());
             }
         }
 
