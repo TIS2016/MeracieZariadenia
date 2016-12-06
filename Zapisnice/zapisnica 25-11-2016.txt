@@ -1,0 +1,13 @@
+Z‡pisnica TIS projekt
+
+D‡tum stretnutia: 25.11.2016
+
+Zoznam pr’tomnùch: Jana Harvanov‡, Sab’na Fa‹kovcov‡, Michal Pandula, Samuel Wendl
+Pr’tomnù cvi‹iaci: Andrej Jursa
+
+Agenda:
+- pravidelnŽ stretnutie s cvi‹iacim
+- uk‡zanie skompletizovanŽho n‡vrhu a schv‡lenie
+- naprogramovanù z‡klad str‡nky - ajax, predpripravenŽ funkcie na posielanie d‡t ‹aséami str‡nky
+- konzult‡cia o napredovan’ projektu a moìnùch rieäeniach webu
+

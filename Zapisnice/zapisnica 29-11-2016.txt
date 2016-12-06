@@ -1,0 +1,12 @@
+Z‡pisnica TIS projekt
+
+D‡tum stretnutia: 29.11.2016
+
+Zoznam pr’tomnùch: Jana Harvanov‡, Sab’na Fa‹kovcov‡, Michal Pandula, Samuel Wendl
+
+Agenda:
+- pravidelnŽ stretnutie t’mu 
+- ätœdium PostgreSQL datab‡z, séahovali sme ju, testovali sme jej funk‹nosé a skœäali ju
+
+
+
