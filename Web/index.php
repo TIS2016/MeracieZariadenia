@@ -63,9 +63,15 @@ echo '<html>
                             }
                             var chart = Highcharts.chart("container", {
 
+                                chart: {
+                                    type: "line",
+                                    zoomType: "x"
+                                },
+
                                 title: {
                                     text: "Meranie {INSERT NAME}"
                                 },
+
 
                                 xAxis: {
                                     //tickInterval: 14 * 24 * 3600 * 1000, // two weeks
