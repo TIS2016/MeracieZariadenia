@@ -218,5 +218,17 @@ namespace SerialCommunication
         {
             if (serialPort.IsOpen) { serialPort.Close(); }
         }
+
+        private void testbutton_Click(object sender, EventArgs e)
+        {
+            Database D = new Database();
+            List<Data> data = new List<Data>();
+            for (int i = 0; i < 10; i++)
+            {
+                Data newData = new Data(1, 0.684351, "2013-03-21 09:10:59");
+                data.Add(newData);
+            }
+            D.InsertOnTable(data);
+        }
     }
 }
