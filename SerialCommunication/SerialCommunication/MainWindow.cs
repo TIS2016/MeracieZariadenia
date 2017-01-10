@@ -274,7 +274,6 @@ namespace SerialCommunication
 
             CONSTANTS.CommInterval = val * 1000;
             freq.Value = val;
-
         }
     }
 }
