@@ -36,7 +36,7 @@ namespace SerialCommunication
             comm = new BackgroundWorker();
             comm.WorkerSupportsCancellation = true;
             comm.DoWork += StartCommunication;
-
+            
             _database = new Database();
 
             //Default Init
@@ -242,6 +242,26 @@ namespace SerialCommunication
                 data.Add(newData);
             }
             _database.InsertOnTable(data);
+        }
+
+        private void MainWindow_Resize(object sender, EventArgs e)
+        {
+            if (FormWindowState.Minimized == this.WindowState)
+            {
+                _systemtrayIcon.Visible = true;
+                _systemtrayIcon.ShowBalloonTip(300);
+                this.Hide();
+            }
+            else if (FormWindowState.Normal == this.WindowState)
+            {
+                _systemtrayIcon.Visible = false;
+            }
+        }
+
+        private void _systemtrayIcon_Click(object sender, MouseEventArgs e)
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
         }
     }
 }
