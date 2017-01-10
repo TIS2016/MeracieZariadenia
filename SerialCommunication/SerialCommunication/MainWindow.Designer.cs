@@ -89,6 +89,7 @@
             this.freq.Location = new System.Drawing.Point(16, 70);
             this.freq.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.freq.Name = "freq";
+            this.freq.ReadOnly = true;
             this.freq.Size = new System.Drawing.Size(91, 26);
             this.freq.TabIndex = 3;
             this.freq.Value = new decimal(new int[] {
@@ -236,6 +237,8 @@
             this._systemtrayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("_systemtrayIcon.Icon")));
             this._systemtrayIcon.Text = "FHT6020 communication";
             this._systemtrayIcon.Visible = true;
+            this._systemtrayIcon.BalloonTipClicked += new System.EventHandler(this._systemtrayIcon_Click);
+            this._systemtrayIcon.BalloonTipClosed += new System.EventHandler(this._systemtrayIcon_BalloonTipClosed);
             this._systemtrayIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this._systemtrayIcon_Click);
             this._systemtrayIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this._systemtrayIcon_Click);
             // 

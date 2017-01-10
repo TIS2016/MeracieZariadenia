@@ -45,8 +45,10 @@ namespace SerialCommunication
             //Default Init
             BaudRate = CONSTANTS.BaudRate;
             PortName = defaultCOMAvailable() ? CONSTANTS.DefaultCOM : String.Empty;
-
             ToggleEnabledDisabled(PortStatus.CLOSED);
+
+            this.WindowState = FormWindowState.Minimized;
+            TryConnecting();
         }
         
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -59,8 +61,13 @@ namespace SerialCommunication
                 BaudRate = settings.BaudRate;
             }
         }
-
+        
         private void b_startCom_Click(object sender, EventArgs e)
+        {
+            TryConnecting();
+        }
+
+        private void TryConnecting()
         {
             _endCommRequest = false;
             if (PortName == "")
@@ -272,13 +279,7 @@ namespace SerialCommunication
                 _systemtrayIcon.Visible = false;
             }
         }
-
-        private void _systemtrayIcon_Click(object sender, MouseEventArgs e)
-        {
-            this.Show();
-            this.WindowState = FormWindowState.Normal;
-        }
-
+        
         private void freq_ValueChanged(object sender, EventArgs e)
         {
             int val = (int)freq.Value;
@@ -321,15 +322,32 @@ namespace SerialCommunication
             _systemtrayIcon.Visible = true;
             _systemtrayIcon.BalloonTipText = "An error has occured: for more information, click here and see Logs. ";
             _systemtrayIcon.ShowBalloonTip(500);
-            _systemtrayIcon.BalloonTipText = CONSTANTS.TrayIconDefaultText;
+            //then sets the text bck to default in _systemtrayIcon_BalloonTipClosed
         }
 
         /// <summary>
-        /// h4x
+        /// h4x0r
         /// </summary>
         private void scrollLogsDown()
         {
             tb_Logs.AppendText(" ");
+        }
+
+        private void _systemtrayIcon_BalloonTipClosed(object sender, EventArgs e)
+        {
+            _systemtrayIcon.BalloonTipText = CONSTANTS.TrayIconDefaultText;
+        }
+
+        private void _systemtrayIcon_Click(object sender, EventArgs e)
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        private void _systemtrayIcon_Click(object sender, MouseEventArgs e)
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
         }
     }
 }

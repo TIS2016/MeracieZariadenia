@@ -19,7 +19,7 @@ namespace SerialCommunication
         public static Color Color_Connected = Color.Green;
         public static Color Color_Disconnected = Color.Red;
 
-        public static string TrayIconDefaultText = "FHT6020 communication running";
+        public static string TrayIconDefaultText = "FHT6020 communication program running in the background.";
 
         /// <summary>
         /// Maximal number of logs remembered at a time
