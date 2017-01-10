@@ -20,7 +20,7 @@ namespace SerialCommunication
         public static Color Color_Disconnected = Color.Red;
 
         /// <summary>
-        /// Communication interval - 1000 ms 
+        /// Communication interval - default is 1000 ms 
         /// </summary>
         public static int CommInterval = 1000;
         /// <summary>

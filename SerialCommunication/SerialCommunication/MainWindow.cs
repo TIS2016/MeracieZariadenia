@@ -128,7 +128,7 @@ namespace SerialCommunication
                     DATA.Add(sonda2Entry);
 
                     Thread.Sleep(CONSTANTS.CommInterval);
-                    CONSTANTS.ElapsedSeconds++;
+                    CONSTANTS.ElapsedSeconds += CONSTANTS.CommInterval/1000;
                 }
             }
             catch (Exception ex)
@@ -209,6 +209,7 @@ namespace SerialCommunication
                 l_connected.Text = CONSTANTS.Connected;
                 b_startCom.Enabled = false;
                 b_endCom.Enabled = true;
+                freq.Enabled = false;
 
             }
             else if (s == PortStatus.CLOSED)
@@ -218,6 +219,7 @@ namespace SerialCommunication
                 l_connected.Text = CONSTANTS.Disconnected;
                 b_startCom.Enabled = true;
                 b_endCom.Enabled = false;
+                freq.Enabled = true;
             }
         }
 
@@ -262,6 +264,17 @@ namespace SerialCommunication
         {
             this.Show();
             this.WindowState = FormWindowState.Normal;
+        }
+
+        private void freq_ValueChanged(object sender, EventArgs e)
+        {
+            int val = (int)freq.Value;
+            if (val < 1) { val = 1; }
+            if (val > 10) { val = 10; }
+
+            CONSTANTS.CommInterval = val * 1000;
+            freq.Value = val;
+
         }
     }
 }

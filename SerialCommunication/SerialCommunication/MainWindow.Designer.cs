@@ -94,6 +94,7 @@
             0,
             0,
             0});
+            this.freq.ValueChanged += new System.EventHandler(this.freq_ValueChanged);
             // 
             // l_sec
             // 
