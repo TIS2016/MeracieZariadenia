@@ -31,10 +31,7 @@ namespace SerialCommunication
         public MainWindow()
         {
             InitializeComponent();
-
-            //this.Width = 645;
-            //this.Height = 330;
-
+            
             portInfo = COMPortInfo.GetCOMPortsInfo();
             serialPort = new SerialPort();
             DATA = new List<Data>();
@@ -69,6 +66,7 @@ namespace SerialCommunication
             if (PortName == "")
             {
                 Log("Prosim zvolte nastavenia portu.");
+                NotifyErrorOnSystemTray();
                 return;
             }
             ToggleEnabledDisabled(PortStatus.OPEN);
@@ -85,6 +83,7 @@ namespace SerialCommunication
             catch (Exception ex)
             {
                 Log("CHYBA; Port sa nepodarilo otvorit. " + ex.ToString(), Color.Red);
+                NotifyErrorOnSystemTray();
                 ToggleEnabledDisabled(PortStatus.CLOSED);
                 return;
             }
@@ -146,6 +145,7 @@ namespace SerialCommunication
                 if (!_endCommRequest)
                 {
                     Log("An error has occured and caused the communication to terminate. " + ex.ToString(), Color.Red);
+                    NotifyErrorOnSystemTray();
                 }
             }
         }
@@ -315,6 +315,15 @@ namespace SerialCommunication
             tb_Logs.Text = String.Join(Environment.NewLine, _logs);
             scrollLogsDown();
         }
+
+        public void NotifyErrorOnSystemTray()
+        {
+            _systemtrayIcon.Visible = true;
+            _systemtrayIcon.BalloonTipText = "An error has occured: for more information, click here and see Logs. ";
+            _systemtrayIcon.ShowBalloonTip(500);
+            _systemtrayIcon.BalloonTipText = CONSTANTS.TrayIconDefaultText;
+        }
+
         /// <summary>
         /// h4x
         /// </summary>

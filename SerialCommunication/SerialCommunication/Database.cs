@@ -70,6 +70,7 @@ namespace SerialCommunication
                 {
                     Debug.WriteLine(e.ToString());
                     _parentWindow.Log("Error on db insert!" + e.ToString(), Color.Red);
+                    _parentWindow.NotifyErrorOnSystemTray();
                     return false;
                 }
             }
@@ -86,6 +87,7 @@ namespace SerialCommunication
             catch (Exception exp)
             {
                 _parentWindow.Log("Error on Database Connection open: " + exp.ToString(), Color.Red);
+                _parentWindow.NotifyErrorOnSystemTray();
             }
         }
 
@@ -98,6 +100,7 @@ namespace SerialCommunication
             catch (Exception  ex)
             {
                 _parentWindow.Log("Error on Databse connection close: " + ex.ToString());
+                _parentWindow.NotifyErrorOnSystemTray();
             }
         }
 
