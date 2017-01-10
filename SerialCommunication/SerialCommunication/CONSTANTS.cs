@@ -19,6 +19,20 @@ namespace SerialCommunication
         public static Color Color_Connected = Color.Green;
         public static Color Color_Disconnected = Color.Red;
 
+        /// <summary>
+        /// Communication interval - 1000 ms 
+        /// </summary>
+        public static int CommInterval = 1000;
+        /// <summary>
+        /// How often are data inserted into DB (s)
+        /// </summary>
+        public static int DbInsertPeriod = 60;
+        /// <summary>
+        /// How many seconds elapsed since last DB Insert
+        /// </summary>
+        public static int ElapsedSeconds = 0;
+
+
         public enum Command
         {
             Sonda1Data,

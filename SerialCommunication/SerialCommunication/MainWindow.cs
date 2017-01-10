@@ -21,12 +21,9 @@ namespace SerialCommunication
 
         List<Data> DATA;
 
-        BackgroundWorker comm;
+        Database _database;
 
-        /// <summary>
-        /// Communication interval ( ms )
-        /// </summary>
-        private int CommInterval = 1000;
+        BackgroundWorker comm;
         
         SerialPort serialPort;
         public MainWindow()
@@ -39,7 +36,9 @@ namespace SerialCommunication
             comm = new BackgroundWorker();
             comm.WorkerSupportsCancellation = true;
             comm.DoWork += StartCommunication;
-            
+
+            _database = new Database();
+
             //Default Init
             BaudRate = CONSTANTS.BaudRate;
             PortName = defaultCOMAvailable() ? CONSTANTS.DefaultCOM : String.Empty;
@@ -66,14 +65,15 @@ namespace SerialCommunication
                 return;
             }
             ToggleEnabledDisabled(PortStatus.OPEN);
-            serialPort.PortName = "COM4";
-            serialPort.BaudRate = 19200;
+            serialPort.PortName = PortName;
+            serialPort.BaudRate = BaudRate;
             serialPort.Parity = Parity.Even;
             serialPort.DataBits = 7;
             serialPort.StopBits = StopBits.One;
             try
             {
                 serialPort.Open();
+                comm.RunWorkerAsync();
             }
             catch (Exception ex)
             {
@@ -81,7 +81,6 @@ namespace SerialCommunication
                 ToggleEnabledDisabled(PortStatus.CLOSED);
                 return;
             }
-            comm.RunWorkerAsync();
         }
         
         private void b_endCom_Click(object sender, EventArgs e)
@@ -91,13 +90,12 @@ namespace SerialCommunication
             {
                 comm.CancelAsync();
             }
-            
             serialPort.Close();
         }
         
         /// <summary>
         /// Starts communication loop. Periodically sends commands for probe1, probe2 data and timestamp. Stores this data.
-        /// Visualizes the data in window. Then, (TODO) once per minute, stores the data to database.
+        /// Visualizes the data in window. Then, once per minute, stores the data to database.
         /// </summary>
         private void StartCommunication(object sender, DoWorkEventArgs e)
         {
@@ -105,10 +103,17 @@ namespace SerialCommunication
             {
                 while (true)
                 {
+                    //if request to cancel communication was invoked,
+                    //terminate and return
                     if (this.comm.CancellationPending)
                     {
                         e.Cancel = true;
                         return;
+                    }
+
+                    if (CONSTANTS.ElapsedSeconds >= CONSTANTS.DbInsertPeriod)
+                    {
+                        InsertDataToDB();
                     }
 
                     string sonda1 = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Sonda1Data));
@@ -121,13 +126,22 @@ namespace SerialCommunication
                     Data sonda2Entry = new Data(2, (double.TryParse(sonda2, out tryparse) ? Convert.ToDouble(sonda2) : 0), timestamp);
                     DATA.Add(sonda1Entry);
                     DATA.Add(sonda2Entry);
-                    Thread.Sleep(CommInterval);
+
+                    Thread.Sleep(CONSTANTS.CommInterval);
+                    CONSTANTS.ElapsedSeconds++;
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("An error has occured and caused the communication to terminate. " + ex.ToString());
             }
+        }
+
+        private void InsertDataToDB()
+        {
+            CONSTANTS.ElapsedSeconds = 0;
+            _database.InsertOnTable(DATA);
+            DATA.Clear();
         }
 
         private List<byte> SendCommandAndGetResponse(CONSTANTS.Command command)
