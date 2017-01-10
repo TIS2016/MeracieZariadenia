@@ -18,17 +18,23 @@ namespace SerialCommunication
 
         private string PortName { get; set; }
         private int BaudRate { get; set; }
-
+        private bool _endCommRequest = false;
         List<Data> DATA;
 
         Database _database;
 
         BackgroundWorker comm;
-        
+
+        List<string> _logs = new List<string>();
+
         SerialPort serialPort;
         public MainWindow()
         {
             InitializeComponent();
+
+            //this.Width = 645;
+            //this.Height = 330;
+
             portInfo = COMPortInfo.GetCOMPortsInfo();
             serialPort = new SerialPort();
             DATA = new List<Data>();
@@ -37,7 +43,7 @@ namespace SerialCommunication
             comm.WorkerSupportsCancellation = true;
             comm.DoWork += StartCommunication;
             
-            _database = new Database();
+            _database = new Database(this);
 
             //Default Init
             BaudRate = CONSTANTS.BaudRate;
@@ -59,9 +65,10 @@ namespace SerialCommunication
 
         private void b_startCom_Click(object sender, EventArgs e)
         {
+            _endCommRequest = false;
             if (PortName == "")
             {
-                MessageBox.Show("Prosim zvolte nastavenia portu.");
+                Log("Prosim zvolte nastavenia portu.");
                 return;
             }
             ToggleEnabledDisabled(PortStatus.OPEN);
@@ -77,7 +84,7 @@ namespace SerialCommunication
             }
             catch (Exception ex)
             {
-                MessageBox.Show("CHYBA; Port sa nepodarilo otvorit. " + ex.ToString(), "Chyba");
+                Log("CHYBA; Port sa nepodarilo otvorit. " + ex.ToString(), Color.Red);
                 ToggleEnabledDisabled(PortStatus.CLOSED);
                 return;
             }
@@ -86,6 +93,8 @@ namespace SerialCommunication
         private void b_endCom_Click(object sender, EventArgs e)
         {
             ToggleEnabledDisabled(PortStatus.CLOSED);
+            _endCommRequest = true;
+            CONSTANTS.ElapsedSeconds = 0;
             if (comm.IsBusy)
             {
                 comm.CancelAsync();
@@ -99,6 +108,7 @@ namespace SerialCommunication
         /// </summary>
         private void StartCommunication(object sender, DoWorkEventArgs e)
         {
+            Log("Communication started successfully.");
             try
             {
                 while (true)
@@ -133,7 +143,10 @@ namespace SerialCommunication
             }
             catch (Exception ex)
             {
-                MessageBox.Show("An error has occured and caused the communication to terminate. " + ex.ToString());
+                if (!_endCommRequest)
+                {
+                    Log("An error has occured and caused the communication to terminate. " + ex.ToString(), Color.Red);
+                }
             }
         }
 
@@ -274,6 +287,40 @@ namespace SerialCommunication
 
             CONSTANTS.CommInterval = val * 1000;
             freq.Value = val;
+        }
+
+        private void chb_showLogs_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chb_showLogs.Checked)
+            {
+                tb_Logs.Visible = true;
+                this.Height = this.Height + tb_Logs.Height;
+            }
+            else
+            {
+                tb_Logs.Visible = false;
+                this.Height = this.Height - tb_Logs.Height;
+            }
+        }
+
+        public void Log(string message, Color? c = null)
+        {
+            Color txtColor = c ?? Color.Black;
+            _logs.Add("**** " + message);
+
+            if (_logs.Count > CONSTANTS.LogCount)
+            {
+                _logs.RemoveAt(0);
+            }
+            tb_Logs.Text = String.Join(Environment.NewLine, _logs);
+            scrollLogsDown();
+        }
+        /// <summary>
+        /// h4x
+        /// </summary>
+        private void scrollLogsDown()
+        {
+            tb_Logs.AppendText(" ");
         }
     }
 }

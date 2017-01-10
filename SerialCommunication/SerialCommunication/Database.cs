@@ -18,6 +18,12 @@ namespace SerialCommunication
     {
         NpgsqlConnection conn = new NpgsqlConnection("Server=127.0.0.1;Port=5432;User Id=admin;Password=kjkskvak;Database=measured_value;");
 
+        MainWindow _parentWindow;
+
+        public Database(MainWindow parentWindow)
+        {
+            _parentWindow = parentWindow;
+        }
 
         public bool InsertOnTable(List<Data> data)
         {
@@ -63,7 +69,7 @@ namespace SerialCommunication
                 catch (Exception e)
                 {
                     Debug.WriteLine(e.ToString());
-                    MessageBox.Show("Errr on insert!");
+                    _parentWindow.Log("Error on db insert!" + e.ToString(), Color.Red);
                     return false;
                 }
             }
@@ -79,7 +85,7 @@ namespace SerialCommunication
             }
             catch (Exception exp)
             {
-                MessageBox.Show("Error :S");
+                _parentWindow.Log("Error on Database Connection open: " + exp.ToString(), Color.Red);
             }
         }
 
@@ -89,9 +95,9 @@ namespace SerialCommunication
             {
                 conn.Close();
             }
-            catch (Exception)
+            catch (Exception  ex)
             {
-                MessageBox.Show("Error :S");
+                _parentWindow.Log("Error on Databse connection close: " + ex.ToString());
             }
         }
 

@@ -20,6 +20,11 @@ namespace SerialCommunication
         public static Color Color_Disconnected = Color.Red;
 
         /// <summary>
+        /// Maximal number of logs remembered at a time
+        /// </summary>
+        public static int LogCount = 30;
+
+        /// <summary>
         /// Communication interval - default is 1000 ms 
         /// </summary>
         public static int CommInterval = 1000;
