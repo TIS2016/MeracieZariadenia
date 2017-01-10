@@ -24,7 +24,7 @@ namespace SerialCommunication
         /// </summary>
         public static int CommInterval = 1000;
         /// <summary>
-        /// How often are data inserted into DB (s)
+        /// How often are data inserted into DB (60 s)
         /// </summary>
         public static int DbInsertPeriod = 60;
         /// <summary>
