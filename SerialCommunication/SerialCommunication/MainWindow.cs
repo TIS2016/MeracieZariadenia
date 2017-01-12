@@ -259,22 +259,12 @@ namespace SerialCommunication
         private void testbutton_Click(object sender, EventArgs e)
         {
             List<Data> data = new List<Data>();
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 2; i++)
             {
-                Data newData = new Data(1, 0.684351, "2013-03-21 09:10:59");
+                Data newData = new Data(1, 0.684351, "01ZR17011202155673");  //2013-03-21 09:10:59
                 data.Add(newData);
             }
             _database.InsertOnTable(data);
-            
-            /*String timestamp = "01ZR17011202155673";
-   
-            String result = "20" + timestamp[4] + timestamp[5] + "-" + timestamp[6] + timestamp[7] + "-" + timestamp[8] + timestamp[9] +" " + timestamp[10] + timestamp[11] +":" + timestamp[12] + timestamp[13] + ":" + timestamp[14] + timestamp[15];
-   
-            
- 
-
-            Debug.WriteLine(result);*/
-
         }
 
         private void MainWindow_Resize(object sender, EventArgs e)
