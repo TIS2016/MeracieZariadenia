@@ -16,7 +16,7 @@ namespace SerialCommunication
         {           
             ProbeID = sondaID;
             Value = sondaValue;
-            Date = timestamp;
+            Date = "20" + timestamp[4] + timestamp[5] + "-" + timestamp[6] + timestamp[7] + "-" + timestamp[8] + timestamp[9] + " " + timestamp[10] + timestamp[11] + ":" + timestamp[12] + timestamp[13] + ":" + timestamp[14] + timestamp[15];
         }
     }
 }

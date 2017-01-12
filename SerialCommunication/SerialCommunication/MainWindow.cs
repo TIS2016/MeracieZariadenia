@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
@@ -264,6 +265,16 @@ namespace SerialCommunication
                 data.Add(newData);
             }
             _database.InsertOnTable(data);
+            
+            /*String timestamp = "01ZR17011202155673";
+   
+            String result = "20" + timestamp[4] + timestamp[5] + "-" + timestamp[6] + timestamp[7] + "-" + timestamp[8] + timestamp[9] +" " + timestamp[10] + timestamp[11] +":" + timestamp[12] + timestamp[13] + ":" + timestamp[14] + timestamp[15];
+   
+            
+ 
+
+            Debug.WriteLine(result);*/
+
         }
 
         private void MainWindow_Resize(object sender, EventArgs e)
