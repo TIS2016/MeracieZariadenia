@@ -147,7 +147,12 @@ namespace SerialCommunication
 
                 if (CONSTANTS.ElapsedSeconds >= CONSTANTS.DbInsertPeriod)
                 {
+                    //pause timer
+                    _commInterval.Enabled = false;
                     InsertDataToDB();
+                    //re-enable timer & return
+                    _commInterval.Enabled = true;
+                    return;
                 }
 
                 string sonda1 = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Sonda1Data));

@@ -24,7 +24,7 @@ namespace SerialCommunication
         /// <summary>
         /// Maximal number of logs remembered at a time
         /// </summary>
-        public static int LogCount = 30;
+        public static int LogCount = 40;
 
         /// <summary>
         /// Communication interval - default is 1000 ms 
