@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
 
 namespace SerialCommunication
@@ -16,7 +17,7 @@ namespace SerialCommunication
     public partial class MainWindow : Form
     {
         List<COMPortInfo> portInfo;
-
+        
         private string PortName { get; set; }
         private int BaudRate { get; set; }
         private bool _endCommRequest = false;
@@ -24,7 +25,8 @@ namespace SerialCommunication
 
         Database _database;
 
-        BackgroundWorker comm;
+        BackgroundWorker commWorker;
+        System.Timers.Timer _commInterval;
 
         List<string> _logs = new List<string>();
 
@@ -32,14 +34,15 @@ namespace SerialCommunication
         public MainWindow()
         {
             InitializeComponent();
-            
+            InitializeCommIntervalTimer();
+
             portInfo = COMPortInfo.GetCOMPortsInfo();
             serialPort = new SerialPort();
             DATA = new List<Data>();
 
-            comm = new BackgroundWorker();
-            comm.WorkerSupportsCancellation = true;
-            comm.DoWork += StartCommunication;
+            commWorker = new BackgroundWorker();
+            commWorker.WorkerSupportsCancellation = true;
+            commWorker.DoWork += RequestProbeData;
             
             _database = new Database(this);
 
@@ -51,16 +54,27 @@ namespace SerialCommunication
             this.WindowState = FormWindowState.Minimized;
             TryConnecting();
         }
-        
-        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void InitializeCommIntervalTimer()
         {
-            SettingsForm settings = new SettingsForm(portInfo, PortName, BaudRate);
-            DialogResult result = settings.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                PortName = settings.PortName;
-                BaudRate = settings.BaudRate;
-            }
+            _commInterval = new System.Timers.Timer();
+            _commInterval.Interval = CONSTANTS.CommInterval;
+            _commInterval.Elapsed += _commInterval_Elapsed;
+            _commInterval.Enabled = false;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void _commInterval_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            _commInterval.Enabled = false;
+
+            commWorker.RunWorkerAsync();
+
+            _commInterval.Enabled = true;
         }
         
         private void b_startCom_Click(object sender, EventArgs e)
@@ -85,8 +99,13 @@ namespace SerialCommunication
             serialPort.StopBits = StopBits.One;
             try
             {
+                //opens the port
                 serialPort.Open();
-                comm.RunWorkerAsync();
+                Log("Port open. Communication started successfully.");
+                //request probe data
+                commWorker.RunWorkerAsync();
+                //starts the timer for periodical probe data requests
+                _commInterval.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -101,52 +120,48 @@ namespace SerialCommunication
         {
             ToggleEnabledDisabled(PortStatus.CLOSED);
             _endCommRequest = true;
+            _commInterval.Enabled = false;
             CONSTANTS.ElapsedSeconds = 0;
-            if (comm.IsBusy)
+            if (commWorker.IsBusy)
             {
-                comm.CancelAsync();
+                commWorker.CancelAsync();
             }
             serialPort.Close();
         }
-        
+
         /// <summary>
-        /// Starts communication loop. Periodically sends commands for probe1, probe2 data and timestamp. Stores this data.
+        /// Starts communication loop. Periodically gets called from .Sends commands for probe1, probe2 data and timestamp. Stores this data.
         /// Visualizes the data in window. Then, once per minute, stores the data to database.
         /// </summary>
-        private void StartCommunication(object sender, DoWorkEventArgs e)
+        private void RequestProbeData(object sender, DoWorkEventArgs e)
         {
-            Log("Communication started successfully.");
             try
             {
-                while (true)
+                //if request to cancel communication was invoked,
+                //terminate and return
+                if (this.commWorker.CancellationPending)
                 {
-                    //if request to cancel communication was invoked,
-                    //terminate and return
-                    if (this.comm.CancellationPending)
-                    {
-                        e.Cancel = true;
-                        return;
-                    }
-
-                    if (CONSTANTS.ElapsedSeconds >= CONSTANTS.DbInsertPeriod)
-                    {
-                        InsertDataToDB();
-                    }
-
-                    string sonda1 = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Sonda1Data));
-                    string sonda2 = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Sonda2Data));
-                    string timestamp = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Timestamp));
-
-                    VisualizeProbeValues(sonda1, sonda2);
-                    double tryparse;
-                    Data sonda1Entry = new Data(1, (double.TryParse(sonda1, out tryparse) ? Convert.ToDouble(sonda1) : 0 ), timestamp);
-                    Data sonda2Entry = new Data(2, (double.TryParse(sonda2, out tryparse) ? Convert.ToDouble(sonda2) : 0), timestamp);
-                    DATA.Add(sonda1Entry);
-                    DATA.Add(sonda2Entry);
-
-                    Thread.Sleep(CONSTANTS.CommInterval);
-                    CONSTANTS.ElapsedSeconds += CONSTANTS.CommInterval/1000;
+                    e.Cancel = true;
+                    return;
                 }
+
+                if (CONSTANTS.ElapsedSeconds >= CONSTANTS.DbInsertPeriod)
+                {
+                    InsertDataToDB();
+                }
+
+                string sonda1 = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Sonda1Data));
+                string sonda2 = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Sonda2Data));
+                string timestamp = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Timestamp));
+
+                VisualizeProbeValues(sonda1, sonda2);
+                double tryparse;
+                Data sonda1Entry = new Data(1, (double.TryParse(sonda1, out tryparse) ? Convert.ToDouble(sonda1) : 0 ), timestamp);
+                Data sonda2Entry = new Data(2, (double.TryParse(sonda2, out tryparse) ? Convert.ToDouble(sonda2) : 0), timestamp);
+                DATA.Add(sonda1Entry);
+                DATA.Add(sonda2Entry);
+                
+                CONSTANTS.ElapsedSeconds += CONSTANTS.CommInterval/1000;
             }
             catch (Exception ex)
             {
@@ -161,7 +176,10 @@ namespace SerialCommunication
         private void InsertDataToDB()
         {
             CONSTANTS.ElapsedSeconds = 0;
-            _database.InsertOnTable(DATA);
+            if (_database.InsertOnTable(DATA))
+            {
+                Log(DATA.Count + " Data successfully uploaded to database.");
+            }
             DATA.Clear();
         }
 
@@ -231,6 +249,7 @@ namespace SerialCommunication
                 b_startCom.Enabled = false;
                 b_endCom.Enabled = true;
                 freq.Enabled = false;
+                optionsToolStripMenuItem.Enabled = false;
 
             }
             else if (s == PortStatus.CLOSED)
@@ -241,6 +260,7 @@ namespace SerialCommunication
                 b_startCom.Enabled = true;
                 b_endCom.Enabled = false;
                 freq.Enabled = true;
+                optionsToolStripMenuItem.Enabled = true;
             }
         }
 
@@ -253,7 +273,11 @@ namespace SerialCommunication
 
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (serialPort.IsOpen) { serialPort.Close(); }
+            if (serialPort.IsOpen)
+            {
+                serialPort.Close();
+                _database.CloseConn();
+            }
         }
 
         private void testbutton_Click(object sender, EventArgs e)
@@ -265,6 +289,17 @@ namespace SerialCommunication
                 data.Add(newData);
             }
             _database.InsertOnTable(data);
+        }
+
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SettingsForm settings = new SettingsForm(portInfo, PortName, BaudRate);
+            DialogResult result = settings.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                PortName = settings.PortName;
+                BaudRate = settings.BaudRate;
+            }
         }
 
         private void MainWindow_Resize(object sender, EventArgs e)
@@ -288,6 +323,7 @@ namespace SerialCommunication
             if (val > 10) { val = 10; }
 
             CONSTANTS.CommInterval = val * 1000;
+            _commInterval.Interval = CONSTANTS.CommInterval;
             freq.Value = val;
         }
 
