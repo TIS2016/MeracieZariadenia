@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
@@ -35,6 +36,11 @@ namespace SerialCommunication
         {
             InitializeComponent();
             InitializeCommIntervalTimer();
+            string sonda1 = "";
+            double tryparse;
+            double s1 = double.Parse("3.55E-15", CultureInfo.InvariantCulture);
+            MessageBox.Show(s1.ToString());
+
 
             portInfo = COMPortInfo.GetCOMPortsInfo();
             serialPort = new SerialPort();
@@ -155,14 +161,16 @@ namespace SerialCommunication
                     return;
                 }
 
-                string sonda1 = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Sonda1Data));
-                string sonda2 = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Sonda2Data));
+                string s1 = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Sonda1Data));
+                string s2 = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Sonda2Data));
                 string timestamp = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Timestamp));
+                VisualizeProbeValues(s1, s2);
 
-                VisualizeProbeValues(sonda1, sonda2);
-                double tryparse;
-                Data sonda1Entry = new Data(1, (double.TryParse(sonda1, out tryparse) ? Convert.ToDouble(sonda1) : 0 ), timestamp);
-                Data sonda2Entry = new Data(2, (double.TryParse(sonda2, out tryparse) ? Convert.ToDouble(sonda2) : 0), timestamp);
+                double sonda1 = ExtractDoubleValue(s1);
+                double sonda2 = ExtractDoubleValue(s2);
+                
+                Data sonda1Entry = new Data(1, sonda1, timestamp);
+                Data sonda2Entry = new Data(2, sonda2, timestamp);
                 DATA.Add(sonda1Entry);
                 DATA.Add(sonda2Entry);
                 
@@ -175,6 +183,23 @@ namespace SerialCommunication
                     Log("An error has occured and caused the communication to terminate. " + ex.ToString(), Color.Red);
                     NotifyErrorOnSystemTray();
                 }
+            }
+        }
+
+        private double ExtractDoubleValue(string s)
+        {
+            try
+            {
+                s = s.Remove(0, 5); //removes the registry name "01RM " from the string;
+                string[] rest = s.Split(' ');//if the string was correct, rest[0] should have the value.
+                double value = double.Parse(rest[0], CultureInfo.InvariantCulture);
+                Log("Parse success: " + value);
+                return value;
+            }
+            catch (Exception e)
+            {
+                Log("Error parsing registry value; " + e.ToString());
+                return 0;
             }
         }
 
