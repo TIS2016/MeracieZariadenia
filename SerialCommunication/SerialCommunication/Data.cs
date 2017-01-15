@@ -10,13 +10,13 @@ namespace SerialCommunication
     public class Data
     {
         public string Date { get; set; }
-        public ushort ProbeID { get; set; }
-        public double Value { get; set; }
+        public double Value1 { get; set; }
+        public double Value2 { get; set; }
 
-        public Data(ushort sondaID, double sondaValue, string timestamp)
+        public Data(double sonda1Value, double sonda2Value, string timestamp)
         {           
-            ProbeID = sondaID;
-            Value = sondaValue;
+            Value1 = sonda1Value;
+            Value2 = sonda2Value;
             Date = parseTimestamp(timestamp);
         }
 

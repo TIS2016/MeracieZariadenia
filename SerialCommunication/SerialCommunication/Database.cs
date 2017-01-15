@@ -54,9 +54,11 @@ namespace SerialCommunication
                     string SQL = "INSERT INTO measured_value(time, probe_id, value) VALUES ";
                     for (int i = 0; i < count - 1; i++)
                     {
-                        SQL += "('" + data[i].Date + "','" + data[i].ProbeID + "','" + data[i].Value.ToString("0.00000000000000000", System.Globalization.CultureInfo.InvariantCulture) + "'),";
+                        //TODO
+
+                        //SQL += "('" + data[i].Date + "','" + data[i].ProbeID + "','" + data[i].Value.ToString("0.00000000000000000", System.Globalization.CultureInfo.InvariantCulture) + "'),";
                     }
-                    SQL += "('" + data[count - 1].Date + "','" + data[count - 1].ProbeID + "','" + data[count - 1].Value.ToString("0.00000000000000000", System.Globalization.CultureInfo.InvariantCulture) + "');";
+                   // SQL += "('" + data[count - 1].Date + "','" + data[count - 1].ProbeID + "','" + data[count - 1].Value.ToString("0.00000000000000000", System.Globalization.CultureInfo.InvariantCulture) + "');";
              
                     // Execute command
                     NpgsqlCommand command = new NpgsqlCommand(SQL, conn);

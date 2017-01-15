@@ -169,10 +169,8 @@ namespace SerialCommunication
                 double sonda1 = ExtractDoubleValue(s1);
                 double sonda2 = ExtractDoubleValue(s2);
                 
-                Data sonda1Entry = new Data(1, sonda1, timestamp);
-                Data sonda2Entry = new Data(2, sonda2, timestamp);
-                DATA.Add(sonda1Entry);
-                DATA.Add(sonda2Entry);
+                Data sondaEntry = new Data(sonda1, sonda2, timestamp);
+                DATA.Add(sondaEntry);
                 
                 CONSTANTS.ElapsedSeconds += CONSTANTS.CommInterval/1000;
             }
