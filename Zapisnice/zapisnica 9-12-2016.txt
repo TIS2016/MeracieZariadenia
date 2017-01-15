@@ -1,0 +1,12 @@
+Z‡pisnica TIS projekt
+
+D‡tum stretnutia: 9.12.2016
+
+Zoznam pr’tomnùch: Sab’na Fa‹kovcov‡, Michal Pandula, Samuel Wendl
+Pr’tomnù cvi‹iaci: Andrej Jursa
+
+Agenda:
+- pravidelnŽ stretnutie s cvi‹iacim
+- ukazovanie doterajäej pr‡ce a graf cez Chartist
+- cvi‹iaci n‡m uk‡zal n‡stroj na grafy - Highcharts, s ktorùm sa dŽ lepäie a krajäie pracovaé ako s Chartist 
+- n‡sledne sme sa rozhodli, ìe radäej pouìijeme Highcharts http://www.highcharts.com
