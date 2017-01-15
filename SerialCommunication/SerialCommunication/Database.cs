@@ -43,8 +43,8 @@ namespace SerialCommunication
                     Debug.WriteLine(rowCount);
 
                     //30758400 - Number of rows after 1 year with every 1 sec measure
-                    if (rowCount > 250) {
-                        NpgsqlCommand deleteCommand = new NpgsqlCommand("DELETE from measured_value where id in (SELECT id FROM measured_value ORDER BY time DESC LIMIT " + count + ")", conn);
+                    if (rowCount+count > 250) {
+                        NpgsqlCommand deleteCommand = new NpgsqlCommand("DELETE from measured_value where id in (SELECT id FROM measured_value ORDER BY time ASC LIMIT " + (rowCount + count -250) + ")", conn);
                         Int32 rowsDeleted = deleteCommand.ExecuteNonQuery();
                         NpgsqlCommand vacuumCommand = new NpgsqlCommand("VACUUM FULL measured_value", conn);
                         vacuumCommand.ExecuteNonQuery();
