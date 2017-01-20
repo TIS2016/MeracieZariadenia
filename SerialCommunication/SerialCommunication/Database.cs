@@ -43,7 +43,7 @@ namespace SerialCommunication
                     Debug.WriteLine(rowCount);
 
                     //30758400 - Number of rows after 1 year with every 1 sec measure
-                    if (rowCount > 250) {
+                    if (rowCount > 30758400) {
                         NpgsqlCommand deleteCommand = new NpgsqlCommand("DELETE from measured_value where id in (SELECT id FROM measured_value ORDER BY time DESC LIMIT " + count + ")", conn);
                         Int32 rowsDeleted = deleteCommand.ExecuteNonQuery();
                         NpgsqlCommand vacuumCommand = new NpgsqlCommand("VACUUM FULL measured_value", conn);
@@ -56,9 +56,11 @@ namespace SerialCommunication
                     {
                         //TODO
 
-                        //SQL += "('" + data[i].Date + "','" + data[i].ProbeID + "','" + data[i].Value.ToString("0.00000000000000000", System.Globalization.CultureInfo.InvariantCulture) + "'),";
+                        SQL += "('" + data[i].Date + "','" + data[i].Value1.ToString("0.00000000000000000", System.Globalization.CultureInfo.InvariantCulture) + "','" + 
+                            data[i].Value2.ToString("0.00000000000000000", System.Globalization.CultureInfo.InvariantCulture) + "'),";
                     }
-                   // SQL += "('" + data[count - 1].Date + "','" + data[count - 1].ProbeID + "','" + data[count - 1].Value.ToString("0.00000000000000000", System.Globalization.CultureInfo.InvariantCulture) + "');";
+                    SQL += "('" + data[count - 1].Date + "','" + data[count - 1].Value1.ToString("0.00000000000000000", System.Globalization.CultureInfo.InvariantCulture) + "','" +
+                        data[count - 1].Value2.ToString("0.00000000000000000", System.Globalization.CultureInfo.InvariantCulture) + "');";
              
                     // Execute command
                     NpgsqlCommand command = new NpgsqlCommand(SQL, conn);
