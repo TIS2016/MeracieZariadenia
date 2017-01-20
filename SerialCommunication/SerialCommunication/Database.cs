@@ -16,7 +16,7 @@ namespace SerialCommunication
 {
     class Database
     {
-        NpgsqlConnection conn = new NpgsqlConnection("Server=127.0.0.1;Port=5432;User Id=admin;Password=kjkskvak;Database=measured_value;");
+        NpgsqlConnection conn = new NpgsqlConnection("Server=ams.dnp.fmph.uniba.sk;Port=5432;User Id=admin;Password=kjkskvak;Database=measured_value;");
 
         MainWindow _parentWindow;
 
@@ -51,11 +51,10 @@ namespace SerialCommunication
 
                     }
 
-                    string SQL = "INSERT INTO measured_value(time, probe_id, value) VALUES ";
+                    string SQL = "INSERT INTO measured_value(time, value1, value2) VALUES ";
                     for (int i = 0; i < count - 1; i++)
                     {
-                        //TODO
-
+                       
                         SQL += "('" + data[i].Date + "','" + data[i].Value1.ToString("0.00000000000000000", System.Globalization.CultureInfo.InvariantCulture) + "','" + 
                             data[i].Value2.ToString("0.00000000000000000", System.Globalization.CultureInfo.InvariantCulture) + "'),";
                     }

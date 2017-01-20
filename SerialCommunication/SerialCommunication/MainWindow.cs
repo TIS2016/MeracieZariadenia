@@ -313,7 +313,7 @@ namespace SerialCommunication
             List<Data> data = new List<Data>();
             for (int i = 0; i < 2; i++)
             {
-                Data newData = new Data(1, 0.684351, "01ZR17011202155673");  //2013-03-21 09:10:59
+                Data newData = new Data(0.684351, 0.684351, "01ZR17011202155673");  //2013-03-21 09:10:59
                 data.Add(newData);
             }
             _database.InsertOnTable(data);
@@ -413,6 +413,11 @@ namespace SerialCommunication
         {
             this.Show();
             this.WindowState = FormWindowState.Normal;
+        }
+
+        private void panel_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
