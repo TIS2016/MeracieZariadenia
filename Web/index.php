@@ -1,20 +1,27 @@
 <?php
-$dateFrom = date('Y-m-d',strtotime("-7 day"));
+
+require 'sql/sql.php';
+
+$dateFrom = date('Y-m-d',strtotime("-1 day"));
 $dateTo = date("Y-m-d");
 
-function get_data($od, $do, $sonda_id) {
+
+function get_data($od, $do, $sonda_id, $values) {
     $value = [
         $od,
         $do,
-        $sonda_id
+        $sonda_id,
+        $values
     ];
     return json_encode($value, JSON_FORCE_OBJECT);
 }
 if (isset($_GET['a']) && $_GET['a'] == 'get_data') {
-    $od = $_GET['od']? : $dateTo;
-    $do = $_GET['do']? : $dateTo;
+    $od = $_GET['od']." ".$_GET['odCas'];
+    $do = $_GET['do']." ".$_GET['doCas'];
     $sonda_id = $_GET['sonda_id'];
-    echo get_data($od, $do, $sonda_id);
+    
+    $values = getData($od,$do);
+    echo get_data($od, $do, $sonda_id,$values);
     return;
 }
 echo '<html>
@@ -27,7 +34,7 @@ echo '<html>
         <script type="text/javascript">
             $(function() {
                 
-                // here initialize grapz
+                // here initialize graph
                 
                 date = [1,2,3];
                 values = [1,2,3];
@@ -44,44 +51,38 @@ echo '<html>
                         data: {
                             od : $(this).find("[name=od]").val(),
                             do : $(this).find("[name=do]").val(),
-                            sonda_id : $(this).attr("id") 
+                            sonda_id : $(this).attr("id"),
+                            doCas : $(this).find("[name=doCas]").val(),
+                            odCas : $(this).find("[name=odCas]").val(),
+
                         },
                         dataType: "json",
                         success: function(result) {
                             $(".result").html("");
-                            $.each(result, function(key,value) {
-
-                                if (key==0) {
-                                    date1 = value;
-                                }
-                                else if (key==1) date2 = value;
-                            });
-
-                            date = [];
+                            console.log(result);
+                            date = result[3][0];
                             values  = [];
                             graph_element = "";
                             name = "";
                             if (result[2] == "sonda1") {
                                 graph_element="container";
                                 name="Sonda 1";
+                                values = result[3][1];
                             }
                             else {
                                 graph_element="container2";
                                 name="Sonda 2";
+                                values = result[3][2];
                             }
-                            // naplnanie random datami
-                            date1 = new Date(date1);
-                            date2 = new Date(date2);
+                            var array = $.map(date, function(value, index) {
+                                return [value];
+                            });
+                            var array2 = $.map(values, function(value, index) {
+                                return [parseFloat(value)];
+                            });
+                            date = array;
+                            values = array2;
 
-                            while (date1<=date2) {
-                                date1 = new Date(date1);
-                                result = date1.toISOString().substring(0,10);
-                                date.push(result);
-                                values.push(Math.floor((Math.random() * 10) + 60)/100);
-                                //$(".result").append("<p>" + result + "</p>");
-                                date1.setDate( date1.getDate() + 1 );                        
-                            }
-                            // koniec naplnania random datami
                             var chart = Highcharts.chart(graph_element, {
 
                                 chart: {
@@ -161,7 +162,7 @@ echo '<html>
                                 },
 
                                 series: [{
-                                    name: "Hodnota1",
+                                    name: "Hodnota",
                                     data: values, // sem vkladam hodnoty
                                     lineWidth: 4,
                                     marker: {
@@ -186,10 +187,10 @@ echo '<html>
         <form id="sonda1" style="margin-top: 60px">
             <h2> Sonda 1 </h2>
             <b>OD:</b>
-            <input type="time" name="odCas" value="00:00" /> 
+            <input type="time" name="odCas" value="19:46" /> 
             <input type="date" name="od" value="' . $dateFrom  . '" /> 
             <b style="margin-left: 50px;">DO:</b>
-            <input type="time" name="doCas" value="00:00" /> 
+            <input type="time" name="doCas" value="19:47" /> 
             <input type="date" name="do" value="' . $dateTo . '" /> 
             <button type="submit" name="a" value="get_data" >Načítaj data</button>
         </form>
