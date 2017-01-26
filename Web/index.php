@@ -3,7 +3,10 @@
 require 'sql/sql.php';
 
 $dateFrom = date('Y-m-d',strtotime("-1 day"));
+$timeFrom = '00:00';
 $dateTo = date("Y-m-d");
+$timeTo = $timeFrom;
+$values = array();
 
 
 function get_data($od, $do, $sonda_id, $values) {
@@ -24,6 +27,14 @@ if (isset($_GET['a']) && $_GET['a'] == 'get_data') {
     echo get_data($od, $do, $sonda_id,$values);
     return;
 }
+
+if (isset($_GET['csv_submit']) && $_GET['csv_submit'] == 'get_csv') {
+    $od = $_GET['od']." ".$_GET['odCas'];
+    $do = $_GET['do']." ".$_GET['doCas'];
+    $values = getData($od,$do);
+    array_to_csv_download($values);
+    exit();
+}
 echo '<html>
     <head>
          <meta http-equiv="Content-Language" content="sk" />
@@ -42,7 +53,7 @@ echo '<html>
                 date2 = new Date();
 
                 // initialize form handler
-                $("form").on("submit", function(e) {
+                $(".data-form").on("submit", function(e) {
                     e.preventDefault();
 
                     $.ajax({
@@ -184,13 +195,13 @@ echo '<html>
 <body style="text-align: center;">
     <div style="margin-top: 30px">
         <h1> Výpis údajov dvoch sond meracieho zariadenia na grafoch </h1>
-        <form id="sonda1" style="margin-top: 60px">
+        <form id="sonda1" class="data-form" style="margin-top: 60px">
             <h2> Sonda 1 </h2>
             <b>OD:</b>
-            <input type="time" name="odCas" value="19:46" /> 
+            <input type="time" name="odCas" value="'. $timeFrom .'"  /> 
             <input type="date" name="od" value="' . $dateFrom  . '" /> 
             <b style="margin-left: 50px;">DO:</b>
-            <input type="time" name="doCas" value="19:47" /> 
+            <input type="time" name="doCas" value="'. $timeTo .'"  /> 
             <input type="date" name="do" value="' . $dateTo . '" /> 
             <button type="submit" name="a" value="get_data" >Načítaj data</button>
         </form>
@@ -200,18 +211,30 @@ echo '<html>
 
         <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
-        <form id="sonda2" style="margin-top: 60px">
+        <form id="sonda2" class="data-form" style="margin-top: 60px">
             <h2> Sonda 2 </h2>
             <b>OD:</b>
-            <input type="time" name="odCas" value="00:00" /> 
+            <input type="time" name="odCas" value="'. $timeFrom .'" /> 
             <input type="date" name="od" value="' . $dateFrom  . '" /> 
             <b style="margin-left: 50px;">DO:</b>
-            <input type="time" name="doCas" value="00:00" /> 
+            <input type="time" name="doCas" value="'.$timeTo.'" /> 
             <input type="date" name="do" value="' . $dateTo . '" /> 
             <button type="submit" name="a" value="get_data" >Načítaj data</button>
         </form>
 
         <div id="container2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+        
+        <form id="csv_form" style="margin-top: 60px">
+            <h2> Export csv súboru </h2>
+            <b>OD:</b>
+            <input type="time" name="odCas" value="'. $timeFrom .'" /> 
+            <input type="date" name="od" value="' . $dateFrom  . '" /> 
+            <b style="margin-left: 50px;">DO:</b>
+            <input type="time" name="doCas" value="'.$timeTo.'" /> 
+            <input type="date" name="do" value="' . $dateTo . '" /> 
+            <button type="submit" name="csv_submit" value="get_csv" >Stiahnúť CSV súbor</button>
+        </form>
 
         <script src="https://code.highcharts.com/highcharts.js"></script>
         <script src="https://code.highcharts.com/modules/data.js"></script>
