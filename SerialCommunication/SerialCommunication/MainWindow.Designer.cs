@@ -88,7 +88,7 @@
             // 
             this.freq.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.freq.Location = new System.Drawing.Point(12, 57);
-            this.freq.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.freq.Margin = new System.Windows.Forms.Padding(2);
             this.freq.Name = "freq";
             this.freq.ReadOnly = true;
             this.freq.Size = new System.Drawing.Size(68, 21);
@@ -119,10 +119,11 @@
             this.panel.Controls.Add(this.l_sonda2);
             this.panel.Controls.Add(this.l_sonda1);
             this.panel.Location = new System.Drawing.Point(200, 25);
-            this.panel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel.Margin = new System.Windows.Forms.Padding(2);
             this.panel.Name = "panel";
             this.panel.Size = new System.Drawing.Size(261, 157);
             this.panel.TabIndex = 5;
+            this.panel.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_Paint);
             // 
             // sonda1Value
             // 
@@ -182,7 +183,7 @@
             // b_startCom
             // 
             this.b_startCom.Location = new System.Drawing.Point(12, 93);
-            this.b_startCom.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.b_startCom.Margin = new System.Windows.Forms.Padding(2);
             this.b_startCom.Name = "b_startCom";
             this.b_startCom.Size = new System.Drawing.Size(90, 29);
             this.b_startCom.TabIndex = 6;
@@ -194,7 +195,7 @@
             // 
             this.b_endCom.Enabled = false;
             this.b_endCom.Location = new System.Drawing.Point(12, 128);
-            this.b_endCom.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.b_endCom.Margin = new System.Windows.Forms.Padding(2);
             this.b_endCom.Name = "b_endCom";
             this.b_endCom.Size = new System.Drawing.Size(90, 28);
             this.b_endCom.TabIndex = 7;
@@ -208,7 +209,7 @@
             this.led.Cursor = System.Windows.Forms.Cursors.Default;
             this.led.Enabled = false;
             this.led.Location = new System.Drawing.Point(351, 191);
-            this.led.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.led.Margin = new System.Windows.Forms.Padding(2);
             this.led.Multiline = true;
             this.led.Name = "led";
             this.led.ReadOnly = true;
@@ -252,7 +253,7 @@
             // tb_Logs
             // 
             this.tb_Logs.Location = new System.Drawing.Point(9, 212);
-            this.tb_Logs.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tb_Logs.Margin = new System.Windows.Forms.Padding(2);
             this.tb_Logs.Multiline = true;
             this.tb_Logs.Name = "tb_Logs";
             this.tb_Logs.ReadOnly = true;
@@ -265,7 +266,7 @@
             // 
             this.chb_showLogs.AutoSize = true;
             this.chb_showLogs.Location = new System.Drawing.Point(12, 191);
-            this.chb_showLogs.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chb_showLogs.Margin = new System.Windows.Forms.Padding(2);
             this.chb_showLogs.Name = "chb_showLogs";
             this.chb_showLogs.Size = new System.Drawing.Size(79, 17);
             this.chb_showLogs.TabIndex = 12;
@@ -293,7 +294,7 @@
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MainWindow";
             this.Text = "FHT 6020 Communication";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);

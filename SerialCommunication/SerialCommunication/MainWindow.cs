@@ -36,11 +36,6 @@ namespace SerialCommunication
         {
             InitializeComponent();
             InitializeCommIntervalTimer();
-            string sonda1 = "";
-            double tryparse;
-            double s1 = double.Parse("3.55E-15", CultureInfo.InvariantCulture);
-            MessageBox.Show(s1.ToString());
-
 
             portInfo = COMPortInfo.GetCOMPortsInfo();
             serialPort = new SerialPort();
@@ -155,7 +150,14 @@ namespace SerialCommunication
                 {
                     //pause timer
                     _commInterval.Enabled = false;
-                    InsertDataToDB();
+                    try
+                    {
+                        InsertDataToDB();
+                    }
+                    catch (Exception ex)
+                    {
+                        Log("ERROR: DB insert failed.");
+                    }
                     //re-enable timer & return
                     _commInterval.Enabled = true;
                     return;
@@ -169,10 +171,8 @@ namespace SerialCommunication
                 double sonda1 = ExtractDoubleValue(s1);
                 double sonda2 = ExtractDoubleValue(s2);
                 
-                Data sonda1Entry = new Data(1, sonda1, timestamp);
-                Data sonda2Entry = new Data(2, sonda2, timestamp);
-                DATA.Add(sonda1Entry);
-                DATA.Add(sonda2Entry);
+                Data sondaEntry = new Data(sonda1, sonda2, timestamp);
+                DATA.Add(sondaEntry);
                 
                 CONSTANTS.ElapsedSeconds += CONSTANTS.CommInterval/1000;
             }
@@ -315,7 +315,7 @@ namespace SerialCommunication
             List<Data> data = new List<Data>();
             for (int i = 0; i < 2; i++)
             {
-                Data newData = new Data(1, 0.684351, "01ZR17011202155673");  //2013-03-21 09:10:59
+                Data newData = new Data(0.684351, 0.684351, "01ZR17011202155673");  //2013-03-21 09:10:59
                 data.Add(newData);
             }
             _database.InsertOnTable(data);
@@ -374,7 +374,7 @@ namespace SerialCommunication
         public void Log(string message, Color? c = null)
         {
             Color txtColor = c ?? Color.Black;
-            _logs.Add("**** " + message);
+            _logs.Add("**** " + DateTime.UtcNow + " : " + message);
 
             if (_logs.Count > CONSTANTS.LogCount)
             {
@@ -415,6 +415,11 @@ namespace SerialCommunication
         {
             this.Show();
             this.WindowState = FormWindowState.Normal;
+        }
+
+        private void panel_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
