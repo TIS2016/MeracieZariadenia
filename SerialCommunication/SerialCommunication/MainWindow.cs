@@ -26,8 +26,8 @@ namespace SerialCommunication
 
         Database _database;
 
-        BackgroundWorker commWorker;
-        System.Timers.Timer _commInterval;
+        private static BackgroundWorker commWorker;
+        private static System.Timers.Timer _commInterval;
 
         List<string> _logs = new List<string>();
 
@@ -35,15 +35,10 @@ namespace SerialCommunication
         public MainWindow()
         {
             InitializeComponent();
-            InitializeCommIntervalTimer();
 
             portInfo = COMPortInfo.GetCOMPortsInfo();
             serialPort = new SerialPort();
             DATA = new List<Data>();
-
-            commWorker = new BackgroundWorker();
-            commWorker.WorkerSupportsCancellation = true;
-            commWorker.DoWork += RequestProbeData;
             
             _database = new Database(this);
 
@@ -55,6 +50,14 @@ namespace SerialCommunication
             this.WindowState = FormWindowState.Minimized;
             TryConnecting();
         }
+        #region Thread init
+
+        private void InitializeBGWorker()
+        {
+            commWorker = new BackgroundWorker();
+            commWorker.WorkerSupportsCancellation = true;
+            commWorker.DoWork += RequestProbeData;
+        }
 
         private void InitializeCommIntervalTimer()
         {
@@ -62,6 +65,14 @@ namespace SerialCommunication
             _commInterval.Interval = CONSTANTS.CommInterval;
             _commInterval.Elapsed += _commInterval_Elapsed;
             _commInterval.Enabled = false;
+        }
+
+        #endregion
+
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+            InitializeCommIntervalTimer();
+            InitializeBGWorker();
         }
 
         /// <summary>
@@ -140,7 +151,7 @@ namespace SerialCommunication
             {
                 //if request to cancel communication was invoked,
                 //terminate and return
-                if (this.commWorker.CancellationPending)
+                if (commWorker.CancellationPending)
                 {
                     e.Cancel = true;
                     return;
