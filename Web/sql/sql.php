@@ -39,4 +39,35 @@
         pg_close($con); 
         return $data;
     }
+
+
+    function array_to_csv_download($array, $filename = "export.csv", $delimiter=",") {
+        ob_end_clean();
+        $f = fopen('php://memory', 'w');
+        $firstline = array("datum", "sonda1", "sonda2"); 
+        fputcsv($f, $firstline, $delimiter);
+
+        /* less rows way
+        foreach ($array as $line) { 
+            fputcsv($f, $line, $delimiter); 
+        }
+        */
+
+        //less columns way
+        for ($i=0;$i<count($array[0]);$i++) {
+            $line = array($array[0][$i],$array[1][$i],$array[2][$i]);
+            fputcsv($f, $line, $delimiter);
+        }
+
+
+        // reset the file pointer to the start of the file
+        fseek($f, 0);
+        // tell the browser it's going to be a csv file
+        header('Content-Type: application/csv');
+        // tell the browser we want to save it instead of displaying it
+        header('Content-Disposition: attachment; filename="'.$filename.'";');
+        // make php send the generated csv lines to the browser
+        //exit();
+        fpassthru($f);
+    }
 ?>
