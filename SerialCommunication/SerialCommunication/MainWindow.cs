@@ -34,8 +34,7 @@ namespace SerialCommunication
         public MainWindow()
         {
             InitializeComponent();
-
-            InitializeCommIntervalTimer();
+            
             InitializeBGWorker();
 
             portInfo = COMPortInfo.GetCOMPortsInfo();
@@ -60,35 +59,13 @@ namespace SerialCommunication
             commWorker.WorkerSupportsCancellation = true;
             commWorker.DoWork += RequestProbeData;
         }
-
-        private void InitializeCommIntervalTimer()
-        {
-            _commInterval = new System.Windows.Forms.Timer();
-            _commInterval.Interval = CONSTANTS.CommInterval;
-            _commInterval.Tick += _commInterval_Elapsed;
-            _commInterval.Enabled = false;
-            GC.KeepAlive(_commInterval);
-        }
-
+        
         #endregion
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void _commInterval_Elapsed(object sender, EventArgs e)
-        {
-            _commInterval.Enabled = false;
-
-            commWorker.RunWorkerAsync();
-
-            _commInterval.Enabled = true;
-        }
+        
         
         private void b_startCom_Click(object sender, EventArgs e)
         {
@@ -117,8 +94,6 @@ namespace SerialCommunication
                 Log("Port open. Communication started successfully.");
                 //request probe data
                 commWorker.RunWorkerAsync();
-                //starts the timer for periodical probe data requests
-                _commInterval.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -133,7 +108,6 @@ namespace SerialCommunication
         {
             ToggleEnabledDisabled(PortStatus.CLOSED);
             _endCommRequest = true;
-            _commInterval.Enabled = false;
             CONSTANTS.ElapsedSeconds = 0;
             if (commWorker.IsBusy)
             {
@@ -150,43 +124,44 @@ namespace SerialCommunication
         {
             try
             {
-                //if request to cancel communication was invoked,
-                //terminate and return
-                if (commWorker.CancellationPending)
+                while (true)
                 {
-                    e.Cancel = true;
-                    return;
-                }
-
-                if (CONSTANTS.ElapsedSeconds >= CONSTANTS.DbInsertPeriod)
-                {
-                    //pause timer
-                    _commInterval.Enabled = false;
-                    try
+                    //if request to cancel communication was invoked,
+                    //terminate and return
+                    if (commWorker.CancellationPending)
                     {
-                        InsertDataToDB();
+                        e.Cancel = true;
+                        return;
                     }
-                    catch (Exception ex)
+
+                    if (CONSTANTS.ElapsedSeconds >= CONSTANTS.DbInsertPeriod)
                     {
-                        Log("ERROR: DB insert failed.");
+                        try
+                        {
+                            InsertDataToDB();
+                        }
+                        catch (Exception ex)
+                        {
+                            Log("ERROR: DB insert failed.");
+                        }
+                        //return;
                     }
-                    //re-enable timer & return
-                    _commInterval.Enabled = true;
-                    return;
+
+                    string s1 = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Sonda1Data));
+                    string s2 = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Sonda2Data));
+                    string timestamp = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Timestamp));
+                    VisualizeProbeValues(s1, s2);
+
+                    double sonda1 = ExtractDoubleValue(s1);
+                    double sonda2 = ExtractDoubleValue(s2);
+
+                    Data sondaEntry = new Data(sonda1, sonda2, timestamp);
+                    DATA.Add(sondaEntry);
+
+                    CONSTANTS.ElapsedSeconds += CONSTANTS.CommInterval / 1000;
+
+                    Thread.Sleep(CONSTANTS.CommInterval);
                 }
-
-                string s1 = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Sonda1Data));
-                string s2 = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Sonda2Data));
-                string timestamp = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Timestamp));
-                VisualizeProbeValues(s1, s2);
-
-                double sonda1 = ExtractDoubleValue(s1);
-                double sonda2 = ExtractDoubleValue(s2);
-                
-                Data sondaEntry = new Data(sonda1, sonda2, timestamp);
-                DATA.Add(sondaEntry);
-                
-                CONSTANTS.ElapsedSeconds += CONSTANTS.CommInterval/1000;
             }
             catch (Exception ex)
             {
@@ -198,6 +173,64 @@ namespace SerialCommunication
             }
         }
 
+        #region OLD
+        /*
+                /// <summary>
+                /// Starts communication loop. Periodically gets called from .Sends commands for probe1, probe2 data and timestamp. Stores this data.
+                /// Visualizes the data in window. Then, once per minute, stores the data to database.
+                /// </summary>
+                private void RequestProbeData(object sender, DoWorkEventArgs e)
+                {
+                    try
+                    {
+                        //if request to cancel communication was invoked,
+                        //terminate and return
+                        if (commWorker.CancellationPending)
+                        {
+                            e.Cancel = true;
+                            return;
+                        }
+
+                        if (CONSTANTS.ElapsedSeconds >= CONSTANTS.DbInsertPeriod)
+                        {
+                            //pause timer
+                            _commInterval.Enabled = false;
+                            try
+                            {
+                                InsertDataToDB();
+                            }
+                            catch (Exception ex)
+                            {
+                                Log("ERROR: DB insert failed.");
+                            }
+                            //re-enable timer & return
+                            _commInterval.Enabled = true;
+                            return;
+                        }
+
+                        string s1 = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Sonda1Data));
+                        string s2 = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Sonda2Data));
+                        string timestamp = ProcessResponse(SendCommandAndGetResponse(CONSTANTS.Command.Timestamp));
+                        VisualizeProbeValues(s1, s2);
+
+                        double sonda1 = ExtractDoubleValue(s1);
+                        double sonda2 = ExtractDoubleValue(s2);
+
+                        Data sondaEntry = new Data(sonda1, sonda2, timestamp);
+                        DATA.Add(sondaEntry);
+
+                        CONSTANTS.ElapsedSeconds += CONSTANTS.CommInterval/1000;
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!_endCommRequest)
+                        {
+                            Log("An error has occured and caused the communication to terminate. " + ex.ToString(), Color.Red);
+                            NotifyErrorOnSystemTray();
+                        }
+                    }
+                }*/
+        #endregion
         private double ExtractDoubleValue(string s)
         {
             try
@@ -205,7 +238,7 @@ namespace SerialCommunication
                 s = s.Remove(0, 5); //removes the registry name "01RM " from the string;
                 string[] rest = s.Split(' ');//if the string was correct, rest[0] should have the value.
                 double value = double.Parse(rest[0], CultureInfo.InvariantCulture);
-                //Log("Parse success: " + value);
+                Log("Parse success: " + value);
                 return value;
             }
             catch (Exception e)
@@ -321,17 +354,7 @@ namespace SerialCommunication
                 _database.CloseConn();
             }
         }
-
-        private void testbutton_Click(object sender, EventArgs e)
-        {
-            List<Data> data = new List<Data>();
-            for (int i = 0; i < 2; i++)
-            {
-                Data newData = new Data(0.684351, 0.684351, "01ZR17011202155673");  //2013-03-21 09:10:59
-                data.Add(newData);
-            }
-            _database.InsertOnTable(data);
-        }
+        
 
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -360,13 +383,12 @@ namespace SerialCommunication
         
         private void freq_ValueChanged(object sender, EventArgs e)
         {
-            int val = (int)freq.Value;
-            if (val < 1) { val = 1; }
-            if (val > 10) { val = 10; }
+            int sec = (int)freq.Value;
+            if (sec < 1) { sec = 1; }
+            if (sec > 10) { sec = 10; }
 
-            CONSTANTS.CommInterval = val * 1000;
-            _commInterval.Interval = CONSTANTS.CommInterval;
-            freq.Value = val;
+            CONSTANTS.CommInterval = sec * 1000;
+            freq.Value = sec;
         }
 
         private void chb_showLogs_CheckedChanged(object sender, EventArgs e)

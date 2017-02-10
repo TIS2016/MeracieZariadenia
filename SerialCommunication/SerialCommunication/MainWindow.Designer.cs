@@ -48,7 +48,6 @@
             this._systemtrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.tb_Logs = new System.Windows.Forms.TextBox();
             this.chb_showLogs = new System.Windows.Forms.CheckBox();
-            this._commInterval = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.freq)).BeginInit();
             this.panel.SuspendLayout();
@@ -309,7 +308,6 @@
         private System.Windows.Forms.NotifyIcon _systemtrayIcon;
         private System.Windows.Forms.TextBox tb_Logs;
         private System.Windows.Forms.CheckBox chb_showLogs;
-        private System.Windows.Forms.Timer _commInterval;
     }
 }
 
