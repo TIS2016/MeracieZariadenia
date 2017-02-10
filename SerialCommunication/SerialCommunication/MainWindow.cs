@@ -27,7 +27,6 @@ namespace SerialCommunication
         Database _database;
 
         private static BackgroundWorker commWorker;
-        private static System.Timers.Timer _commInterval;
 
         List<string> _logs = new List<string>();
 
@@ -35,6 +34,9 @@ namespace SerialCommunication
         public MainWindow()
         {
             InitializeComponent();
+
+            InitializeCommIntervalTimer();
+            InitializeBGWorker();
 
             portInfo = COMPortInfo.GetCOMPortsInfo();
             serialPort = new SerialPort();
@@ -61,18 +63,17 @@ namespace SerialCommunication
 
         private void InitializeCommIntervalTimer()
         {
-            _commInterval = new System.Timers.Timer();
+            _commInterval = new System.Windows.Forms.Timer();
             _commInterval.Interval = CONSTANTS.CommInterval;
-            _commInterval.Elapsed += _commInterval_Elapsed;
+            _commInterval.Tick += _commInterval_Elapsed;
             _commInterval.Enabled = false;
+            GC.KeepAlive(_commInterval);
         }
 
         #endregion
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
-            InitializeCommIntervalTimer();
-            InitializeBGWorker();
         }
 
         /// <summary>
@@ -80,7 +81,7 @@ namespace SerialCommunication
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _commInterval_Elapsed(object sender, ElapsedEventArgs e)
+        private void _commInterval_Elapsed(object sender, EventArgs e)
         {
             _commInterval.Enabled = false;
 
@@ -204,7 +205,7 @@ namespace SerialCommunication
                 s = s.Remove(0, 5); //removes the registry name "01RM " from the string;
                 string[] rest = s.Split(' ');//if the string was correct, rest[0] should have the value.
                 double value = double.Parse(rest[0], CultureInfo.InvariantCulture);
-                Log("Parse success: " + value);
+                //Log("Parse success: " + value);
                 return value;
             }
             catch (Exception e)

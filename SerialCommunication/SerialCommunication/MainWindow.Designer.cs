@@ -45,10 +45,10 @@
             this.b_endCom = new System.Windows.Forms.Button();
             this.led = new System.Windows.Forms.TextBox();
             this.l_connected = new System.Windows.Forms.Label();
-            this.testbutton = new System.Windows.Forms.Button();
             this._systemtrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.tb_Logs = new System.Windows.Forms.TextBox();
             this.chb_showLogs = new System.Windows.Forms.CheckBox();
+            this._commInterval = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.freq)).BeginInit();
             this.panel.SuspendLayout();
@@ -219,18 +219,6 @@
             this.l_connected.TabIndex = 9;
             this.l_connected.Text = "Connected";
             // 
-            // testbutton
-            // 
-            this.testbutton.Location = new System.Drawing.Point(183, 196);
-            this.testbutton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.testbutton.Name = "testbutton";
-            this.testbutton.Size = new System.Drawing.Size(77, 28);
-            this.testbutton.TabIndex = 10;
-            this.testbutton.Text = "Testbutton";
-            this.testbutton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.testbutton.UseVisualStyleBackColor = true;
-            this.testbutton.Click += new System.EventHandler(this.testbutton_Click);
-            // 
             // _systemtrayIcon
             // 
             this._systemtrayIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
@@ -275,7 +263,6 @@
             this.ClientSize = new System.Drawing.Size(627, 263);
             this.Controls.Add(this.chb_showLogs);
             this.Controls.Add(this.tb_Logs);
-            this.Controls.Add(this.testbutton);
             this.Controls.Add(this.l_connected);
             this.Controls.Add(this.led);
             this.Controls.Add(this.b_endCom);
@@ -319,10 +306,10 @@
         private System.Windows.Forms.Label l_connected;
         private System.Windows.Forms.Label sonda1Value;
         private System.Windows.Forms.Label sonda2Value;
-        private System.Windows.Forms.Button testbutton;
         private System.Windows.Forms.NotifyIcon _systemtrayIcon;
         private System.Windows.Forms.TextBox tb_Logs;
         private System.Windows.Forms.CheckBox chb_showLogs;
+        private System.Windows.Forms.Timer _commInterval;
     }
 }
 
