@@ -56,7 +56,7 @@ namespace SerialCommunication
         private void InitializeBGWorker()
         {
             commWorker = new BackgroundWorker();
-            commWorker.WorkerSupportsCancellation = true;
+            //commWorker.WorkerSupportsCancellation = true;
             commWorker.DoWork += RequestProbeData;
         }
         
@@ -128,7 +128,7 @@ namespace SerialCommunication
                 {
                     //if request to cancel communication was invoked,
                     //terminate and return
-                    if (commWorker.CancellationPending)
+                    if (_endCommRequest)
                     {
                         e.Cancel = true;
                         return;
