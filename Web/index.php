@@ -114,7 +114,7 @@ echo '<html>
                                     labels: {
                                         align: "left",
                                         x: 3,
-                                        y: -3
+                                        y: 103
                                     }
                                 },
 
@@ -244,6 +244,7 @@ echo '<html>
         <script src="https://www.highcharts.com/samples/static/highslide-full.min.js"></script>
         <script src="https://www.highcharts.com/samples/static/highslide.config.js" charset="utf-8"></script>
         <link rel="stylesheet" type="text/css" href="https://www.highcharts.com/samples/static/highslide.css" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
 
     </div>
 </body>
